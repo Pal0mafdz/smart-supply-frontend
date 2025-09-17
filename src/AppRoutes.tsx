@@ -26,7 +26,7 @@ const AppRoutes = () => {
           <Route path="/home-page" element={<Layout><HomePage/></Layout>}/>
         </Route>
 
-        <Route element={<RoleProtectedRoute allowedRoles={["unauthorized"]}/>}>
+        <Route element={<RoleProtectedRoute allowedRoles={["unauthorized", "admin", "almacenista", "contador", "gerente", "jefe de cocina", "mesero"]}/>}>
           <Route path="/user-unauthorized" element={<Layout><WaitForAuthorization/></Layout>}/>
         </Route> 
 

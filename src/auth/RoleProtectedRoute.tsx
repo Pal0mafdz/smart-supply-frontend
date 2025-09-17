@@ -11,7 +11,7 @@ interface Props {
     redirectPath?: string;
 }
 
-const RoleProtectedRoute = ({allowedRoles, redirectPath = "/"}: Props)=> {
+const RoleProtectedRoute = ({allowedRoles, redirectPath = "/user-unauthorized"}: Props)=> {
 
      const {currentUser, isLoading: userLoading} = useGetCurrentUser();
      const {isAuthenticated, isLoading} = useAuth0();

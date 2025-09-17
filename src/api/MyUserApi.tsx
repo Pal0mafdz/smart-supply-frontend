@@ -1,6 +1,8 @@
 import type { User } from "@/types";
 import { useAuth0 } from "@auth0/auth0-react";
- import { useMutation, useQuery } from "@tanstack/react-query";
+ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+ import {toast} from "sonner";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -8,6 +10,11 @@ type CreateUserRequest = {
     auth0Id: string;
     email:string;
     
+}
+
+type UpdateUserRoleRequest = {
+    userId: string;
+    newRole: string;
 }
 
 export const useCreateMyUser = ()=> {
@@ -39,6 +46,43 @@ export const useCreateMyUser = ()=> {
         isSuccess,
     }
 
+}
+
+export const useUpdateUserRole = () => {
+    const {getAccessTokenSilently} = useAuth0();
+    const queryClient = useQueryClient();
+
+    const updateUserRoleRequest = async({userId, newRole}: UpdateUserRoleRequest)=> {
+        const accessToken = await getAccessTokenSilently();
+
+        const response = await fetch(`${API_BASE_URL}/api/my/user`, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({userId, newRole}),
+        });
+
+        if(!response.ok){
+            throw new Error("Failed to update role");
+        }
+        return response.json();
+    };
+    const {mutateAsync: updateUserRole, isPending:isLoading, error, isSuccess, reset} = useMutation({mutationFn: updateUserRoleRequest});
+
+    //el toast es la notificacion que sale en la esquina superior derecha
+    if(isSuccess){
+        toast.success("Se ha actualizado el rol del usuario!!");
+        queryClient.invalidateQueries({queryKey: ["fetchMyUsers"]});
+    }
+
+    if(error){
+        toast.error(error.toString());
+        reset(); //resetea el toast
+    }
+
+    return { updateUserRole, isLoading};
 }
 
 //tiene que regresar un arreglo con todos los usuarios
