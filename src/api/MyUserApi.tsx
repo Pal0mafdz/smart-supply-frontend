@@ -66,3 +66,29 @@ export const useGetMyUsers = () => {
     return {users, isLoading};
 }
 
+
+export const useGetCurrentUser = ()=>{
+    const {getAccessTokenSilently} = useAuth0();
+
+    const getCurrentUserRequest = async(): Promise<User>=> {
+        const accessToken = await getAccessTokenSilently();
+
+        const response = await fetch(`${API_BASE_URL}/api/my/user`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-Type": "application/json",
+            }
+        })
+
+        if(!response.ok){
+            throw new Error("Failed to fetch user");
+        }
+        return response.json();
+    }
+    const {data: currentUser, isLoading} = useQuery({queryKey: ["fetchCurrentUser"], queryFn: getCurrentUserRequest});
+
+    return {currentUser, isLoading};
+
+}
+

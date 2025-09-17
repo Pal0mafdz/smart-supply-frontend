@@ -1,4 +1,5 @@
 import { useGetMyUsers } from "@/api/MyUserApi"
+import Spinner from "@/components/Spinner"
 import { DataTable } from "@/components/tables/DataTable"
 import type { User } from "@/types"
 import type { ColumnDef } from "@tanstack/react-table"
@@ -27,7 +28,9 @@ const UsersPage = () => {
   // console.log(users);
 
   if(isLoading){
-    return <p className="text-center">Cargando...</p>
+     return <Spinner/>
+    // // return <p className="text-center">Cargando...</p>
+    
   }
   return (
 
