@@ -69,18 +69,16 @@ export const useUpdateUserRole = () => {
         }
         return response.json();
     };
-    const {mutateAsync: updateUserRole, isPending:isLoading, error, isSuccess, reset} = useMutation({mutationFn: updateUserRoleRequest});
-
-    //el toast es la notificacion que sale en la esquina superior derecha
-    if(isSuccess){
-        toast.success("Se ha actualizado el rol del usuario!!");
-        queryClient.invalidateQueries({queryKey: ["fetchMyUsers"]});
-    }
-
-    if(error){
-        toast.error(error.toString());
-        reset(); //resetea el toast
-    }
+    const { mutateAsync: updateUserRole, isPending: isLoading } = useMutation({
+        mutationFn: updateUserRoleRequest,
+        onSuccess: () => {
+          toast.success("Se ha actualizado el rol del usuario!!");
+          queryClient.invalidateQueries({ queryKey: ["fetchMyUsers"] });
+        },
+        onError: (err: Error) => {
+          toast.error(err.message || "Error al actualizar el rol");
+        },
+      });
 
     return { updateUserRole, isLoading};
 }
