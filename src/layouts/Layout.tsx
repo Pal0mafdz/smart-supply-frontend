@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/sonner"
 
 const Layout = ({children}: {children: React.ReactNode}) => {
   return (
+    
     <SidebarProvider>
       <SideNav/>
       <main className="container mx-auto flex-1"> 

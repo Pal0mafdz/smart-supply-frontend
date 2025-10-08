@@ -2,11 +2,13 @@ import { Navigate, Route, Routes } from "react-router-dom"
 import HomePage from "./pages/HomePage";
 import Layout from "./layouts/Layout";
 import UsersPage from "./pages/UsersPage";
-import ProtectedRoute from "./auth/ProtectedRoute";
 import AuthCallBackPage from "./pages/AuthCallBackPage";
 import GetStarted from "./pages/GetStarted";
 import WaitForAuthorization from "./pages/WaitForAuthorization";
 import RoleProtectedRoute from "./auth/RoleProtectedRoute";
+import InventoryPage from "./pages/InventoryPage";
+import MovementsPage from "./pages/MovementsPage";
+import RecipesPage from "./pages/RecipesPage";
 
 
 
@@ -30,6 +32,20 @@ const AppRoutes = () => {
           <Route path="/user-unauthorized" element={<Layout><WaitForAuthorization/></Layout>}/>
         </Route> 
 
+        <Route element={<RoleProtectedRoute allowedRoles={["admin", "almacenista", "contador"]}/>}>
+          <Route path="/inventory" element={<Layout><InventoryPage/></Layout>}/>
+          
+        </Route> 
+
+        <Route element={<RoleProtectedRoute allowedRoles={["admin", "almacenista", "contador"]}/>}>
+          <Route path="/movements-inventory" element={<Layout><MovementsPage/></Layout>}/>
+        </Route> 
+
+        <Route element={<RoleProtectedRoute allowedRoles={["admin", "contador"]}/>}>
+          <Route path="/recipes" element={<Layout><RecipesPage/></Layout>}/>
+        </Route>
+        
+        
 
 
 

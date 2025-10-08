@@ -6,11 +6,14 @@ import { AvatarImage } from "./ui/avatar"
 import { Link } from "react-router-dom"
 import { Button } from "./ui/button"
 import { useSidebar } from "./ui/sidebar"
+import { AvatarFallback } from "./ui/avatar"
 
 const UsernameMenu = () => {
     const {user, logout} = useAuth0();
     const { state } = useSidebar();
     const collapsed = state === "collapsed";
+
+    const fallbackLetter = user?.email ? user.email.charAt(0).toUpperCase() : "U"
    
 
   return (
@@ -22,7 +25,8 @@ const UsernameMenu = () => {
           }`}
         >
           <Avatar className="h-6 w-6">
-            <AvatarImage src={user?.picture} />
+            {/* <AvatarImage src={user?.picture} /> */}
+            <AvatarFallback>{fallbackLetter}</AvatarFallback>
           </Avatar>
           {!collapsed && (
             <span className="truncate text-white">{user?.email}</span>
@@ -30,11 +34,11 @@ const UsernameMenu = () => {
         </div>
             
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent side="right" className="bg-zinc-900 text-zinc-300 hover: bg">
             <DropdownMenuItem>
             <Link to= "/user-profile" className=" hover:bg-gray">Perfil de Usuario</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem >
             <Button className="flex flex-1 bg-zinc-600" onClick={()=> logout()}>Cerrar Sesion</Button>
             </DropdownMenuItem>
         </DropdownMenuContent>

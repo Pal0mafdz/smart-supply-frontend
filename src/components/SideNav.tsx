@@ -20,13 +20,13 @@ const items = [
     icon: BanknoteArrowUp,
   },
   {
-    title: "Almacen",
-    url: "#",
+    title: "Inventario",
+    url: "/inventory",
     icon: Apple,
   },
   {
     title: "Recetario",
-    url: "#",
+    url: "/recipes",
     icon: CookingPot,
   },
   {
@@ -61,28 +61,21 @@ const SideNav = () => {
 
   return (
     <Sidebar collapsible="icon">
-        <SidebarHeader className="px-4 py-3 bg-zinc-900 text-zinc-300">
+        <SidebarHeader className="px-4 py-3 bg-zinc-950 text-zinc-300">
             <h2>{collapsed? "SS" : "SmartSupply"}</h2>
         </SidebarHeader>
         <Separator className="bg-zinc-700"/>
-      <SidebarContent className="bg-zinc-900 text-zinc-300">
+      <SidebarContent className="bg-zinc-950 text-zinc-300">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  {/* <SidebarMenuButton className="hover:bg-zinc-300"asChild 
-                   >
-                    <Link to={item.url}>
-                      <item.icon/>
-                      <span>{item.title}</span>
-                    </Link>
-            
-                  </SidebarMenuButton> */}
+                
                   <SidebarMenuButton
                     asChild
                     className={`hover:bg-zinc-300 ${
-                      location.pathname === item.url ? "bg-zinc-300 text-zinc-900" : ""
+                      location.pathname === item.url ? "bg-zinc-300 text-zinc-950" : ""
                     }`}
                   >
                     <Link to={item.url} className="flex items-center space-x-2">
@@ -99,12 +92,12 @@ const SideNav = () => {
         </SidebarGroup>
       </SidebarContent>
       <Separator className="bg-zinc-700"/>
-      <SidebarFooter className="px-4 py-3 bg-zinc-900">
+      <SidebarFooter className="px-4 py-3 bg-zinc-950">
        
           {isAuthenticated? (
             <UsernameMenu/>
           ):(
-            <Button className="w-full bg-zinc-300 text-zinc-900 hover:bg-zinc-700 hover:text-zinc-300" onClick={async () => await loginWithRedirect()}>
+            <Button className="w-full bg-zinc-300 text-zinc-950 hover:bg-zinc-700 hover:text-zinc-300" onClick={async () => await loginWithRedirect()}>
               {collapsed?<User className="h-5 w-5"/> :  "Iniciar Sesion"}
               </Button>
           )}

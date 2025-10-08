@@ -3,7 +3,7 @@ import Spinner from "@/components/Spinner"
 import { DataTable } from "@/components/tables/DataTable"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import type { User } from "@/types"
-import { useQueryClient } from "@tanstack/react-query"
+// import { useQueryClient } from "@tanstack/react-query"
 import type { ColumnDef } from "@tanstack/react-table"
 
 
@@ -41,6 +41,7 @@ import type { ColumnDef } from "@tanstack/react-table"
 
 const UsersPage = () => {
   const {users, isLoading} = useGetMyUsers();
+  //User[]
   const {updateUserRole} = useUpdateUserRole();
  // const queryClient = useQueryClient(); 
 
