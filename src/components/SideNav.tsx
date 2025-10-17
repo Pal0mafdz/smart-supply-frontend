@@ -61,11 +61,11 @@ const SideNav = () => {
 
   return (
     <Sidebar collapsible="icon">
-        <SidebarHeader className="px-4 py-3 bg-zinc-950 text-zinc-300">
+        <SidebarHeader className="px-4 py-3 bg-stone-900 text-stone-300">
             <h2>{collapsed? "SS" : "SmartSupply"}</h2>
         </SidebarHeader>
-        <Separator className="bg-zinc-700"/>
-      <SidebarContent className="bg-zinc-950 text-zinc-300">
+        <Separator className="bg-stone-700"/>
+      <SidebarContent className="bg-stone-900 text-stone-300">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -74,8 +74,8 @@ const SideNav = () => {
                 
                   <SidebarMenuButton
                     asChild
-                    className={`hover:bg-zinc-300 ${
-                      location.pathname === item.url ? "bg-zinc-300 text-zinc-950" : ""
+                    className={`hover:bg-stone-300 ${
+                      location.pathname === item.url ? "bg-stone-300 text-stone-900" : ""
                     }`}
                   >
                     <Link to={item.url} className="flex items-center space-x-2">
@@ -91,13 +91,13 @@ const SideNav = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <Separator className="bg-zinc-700"/>
-      <SidebarFooter className="px-4 py-3 bg-zinc-950">
+      <Separator className="bg-stone-700"/>
+      <SidebarFooter className="px-4 py-3 bg-stone-900">
        
           {isAuthenticated? (
             <UsernameMenu/>
           ):(
-            <Button className="w-full bg-zinc-300 text-zinc-950 hover:bg-zinc-700 hover:text-zinc-300" onClick={async () => await loginWithRedirect()}>
+            <Button className="w-full bg-stone-300 text-stone-900 hover:bg-stone-700 hover:text-stone-300" onClick={async () => await loginWithRedirect()}>
               {collapsed?<User className="h-5 w-5"/> :  "Iniciar Sesion"}
               </Button>
           )}

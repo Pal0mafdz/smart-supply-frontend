@@ -17,14 +17,13 @@ type Props = {
 
 const DialogEntry = ({product, open, onClose}: Props) => {
     const [quantityInStock, setQuantityInStock] = useState(product.quantityInStock);
-    const [unitprice, setUnitprice] = useState(product.unitprice);
     const [note, setNote] = useState("");
     const {editProduct, isLoading} = useEditProduct();
 
     const handleSave = async() => {
         await editProduct({
             productId: product._id,
-            updates: {quantityInStock, unitprice, note},
+            updates: {quantityInStock, note},
         })
         onClose();
     };
@@ -66,17 +65,8 @@ const DialogEntry = ({product, open, onClose}: Props) => {
             </Field>
 
             <Field>
-              <FieldLabel htmlFor="price">Precio unitario</FieldLabel>
-              <Input
-                id="price"
-                type="number"
-                step="0.01"
-                value={unitprice}
-                onChange={(e) => setUnitprice(Number(e.target.value))}
-              />
-              <FieldDescription>
-                Si solo cambias el precio, el movimiento se registrará como <b>ajuste</b>.
-              </FieldDescription>
+              <FieldLabel htmlFor="name">Precio unitario</FieldLabel>
+              <Input id="price" value={product.unitprice} disabled />
             </Field>
 
             <Field>

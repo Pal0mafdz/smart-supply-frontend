@@ -3,37 +3,25 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 import { Button } from "./ui/button"
 import EntryProductForm from "@/forms/EntryProductForm"
 import { useParams } from "react-router-dom"
-import { useAddProduct, useEditProduct, useGetProductById } from "@/api/MyProductApi"
-
-
+import { useAddProduct, useGetProductById } from "@/api/MyProductApi"
 
 const ProductEntry = () => {
   const { id: productId} = useParams();
   const {addProduct, isLoading: isAdding} = useAddProduct();
- // const {editProduct, isLoading: isEditLoading} = useEditProduct();
   const {product} = useGetProductById(productId);
-
-  //const isEditing= !!productId?.trim();
-
 
   const handleSave = (formData: FormData)=>{
     addProduct(formData);
-    // if(isEditing && productId){
-    //   editProduct({productId, productFormData: formData});
-
-    // }else{
-    //   addProduct(formData);
-    // }
   }
 
   return (
     <Sheet>
   <SheetTrigger asChild>
    
-  <Button>Registrar entrada</Button>
+  <Button className="bg-stone-950 hover:bg-stone-200 hover:text-stone-950">Registrar entrada</Button>
     
   </SheetTrigger>
-  <SheetContent>
+  <SheetContent className="overflow-y-auto">
     <SheetHeader>
       <SheetTitle>Registra la entarda de tu producto</SheetTitle>
       <SheetDescription>

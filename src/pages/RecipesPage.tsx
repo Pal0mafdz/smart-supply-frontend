@@ -1,9 +1,96 @@
-import React from 'react'
+import { useGetRecipes } from '@/api/MyRecipeApi';
+import DialogRecipe from '@/components/DialogRecipe';
+import RecipeCard from '@/components/RecipeCard';
+import RecipeMenu from '@/components/RecipeMenu';
+import SearchBar from '@/components/SearchBar';
+import Spinner from '@/components/Spinner';
+import { Button } from '@/components/ui/button';
+
+import { useState } from 'react';
+
 
 const RecipesPage = () => {
-  return (
-    <div>RecipesPage</div>
-  )
-}
+  const {recipes, isLoading} = useGetRecipes();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
 
-export default RecipesPage
+  const filteredRecipes = recipes?.filter((r)=> 
+  r.recipename.toLowerCase().includes(searchTerm.toLowerCase()))
+
+  if (isLoading) {
+    return <Spinner/>
+  }
+
+  return (
+
+   
+
+    <div className="w-full px-8 pt-6 space-y-6">
+  
+
+      <div className='flex flex-col sm:flex-row justify-between items-center gap-4'>
+
+        <div className='flex items-center gap-4 w-full sm-w-auto'>
+
+        <h1 className='text-3xl font-bold'>Recetario</h1>
+
+        <SearchBar onSearch={setSearchTerm}/>
+        <Button
+            className="bg-stone-900 text-stone-300 rounded-2xl"
+            onClick={() => setOpenDialog(true)}
+          >
+            + Agregar receta
+          </Button>
+        {/* <DialogRecipe/> */}
+
+        </div>
+
+      
+
+    
+
+      </div>
+      <RecipeMenu/>
+
+      
+
+      {/* {recipes && recipes.length > 0 ? (
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center">
+          {recipes.map((receta) => (
+            <RecipeCard key={receta._id} recipe={receta} />
+          ))}
+        </div>
+      ) : (
+        <div className="text-gray-500 text-center mt-10">No hay recetas disponibles.</div>
+      )} */}
+
+{filteredRecipes && filteredRecipes.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center">
+          {filteredRecipes.map((receta) => (
+            <RecipeCard key={receta._id} recipe={receta} />
+          ))}
+        </div>
+      ) : (
+        <div className="text-gray-500 text-center mt-10">
+          No hay recetas disponibles.
+        </div>
+      )}
+
+{openDialog && (
+        <DialogRecipe
+          open={openDialog}
+          onClose={() => setOpenDialog(false)}
+          title="Agregar nueva receta"
+        />
+      )}
+
+    </div>
+    
+
+
+
+   )
+};
+
+export default RecipesPage;

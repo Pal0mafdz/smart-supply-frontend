@@ -52,25 +52,25 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
-      <Input
+      <div className="flex items-center py-4 ">
+      <Input 
           placeholder="Filtra por categoria"
           value={(table.getColumn("Categoria")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("Categoria")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-sm bg-white"
         />
 
       </div>
     <div className="overflow-hidden rounded-md border">
-      <Table>
-        <TableHeader>
+      <Table className="bg-white">
+        <TableHeader >
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow key={headerGroup.id} >
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} >
                     {header.isPlaceholder
                       ? null
                       : flexRender(

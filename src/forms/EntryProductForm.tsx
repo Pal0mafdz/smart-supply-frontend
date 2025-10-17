@@ -1,4 +1,3 @@
-
 import type { Product } from '@/types'
 import { useEffect, useState } from 'react'
 import { z } from "zod"
@@ -14,7 +13,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-//import { Select, SelectContent, SelectGroup,  SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useAddCategoryProd, useDeleteCategoryProd, useGetCategoriesProd } from '@/api/MyCategoryProdApi';
 import { CircleX, Plus } from 'lucide-react';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';

@@ -1,7 +1,7 @@
 import { getMovements } from "@/api/MyMovementsApi"
 import InventoryNav from "@/components/InventoryNav"
 import Spinner from "@/components/Spinner"
-import { DataTable } from "@/components/tables/DataTable"
+import { MovementTable } from "@/components/tables/MovementTable"
 import type { Movement } from "@/types"
 import type { ColumnDef } from "@tanstack/react-table"
 
@@ -12,8 +12,9 @@ const columns: ColumnDef<Movement>[] = [
   
     },
     {
-      accessorKey:"type",
-      header: "Tipo de Movimiento",
+      header:"Tipo de Movimiento",
+      accessorFn: (row) => row.type,
+
     },
     {
         accessorKey:"quantity",
@@ -46,7 +47,8 @@ const MovementsPage = () => {
     <div className="w-full p-7 space-y-6">
     <InventoryNav/>
 
-    <DataTable columns={columns} data={movements??[]}/>
+    {/* <DataTable columns={columns} data={movements??[]}/> */}
+    <MovementTable columns={columns} data={movements??[]}/>
     </div>
   )
 }

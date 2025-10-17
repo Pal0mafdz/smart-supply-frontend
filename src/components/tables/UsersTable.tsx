@@ -23,15 +23,15 @@ import React from "react"
 import { Input } from "../ui/input"
 
 
-interface MovementTableProps<TData, TValue> {
+interface UsersTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }
 
-export function MovementTable<TData, TValue>({
+export function UsersTable<TData, TValue>({
   columns,
   data,
-}: MovementTableProps<TData, TValue>) {
+}: UsersTableProps<TData, TValue>) {
   // const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -52,12 +52,12 @@ export function MovementTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
-      <Input
-          placeholder="Filtra por tipo de movimiento"
-          value={(table.getColumn("Tipo de Movimiento")?.getFilterValue() as string) ?? ""}
+      <div className="flex items-center py-4 ">
+      <Input 
+          placeholder="Filtra por correo"
+          value={(table.getColumn("Correo")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("Tipo de Movimiento")?.setFilterValue(event.target.value)
+            table.getColumn("Correo")?.setFilterValue(event.target.value)
           }
           className="max-w-sm bg-white"
         />
@@ -65,12 +65,12 @@ export function MovementTable<TData, TValue>({
       </div>
     <div className="overflow-hidden rounded-md border">
       <Table className="bg-white">
-        <TableHeader>
+        <TableHeader >
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow key={headerGroup.id} >
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} >
                     {header.isPlaceholder
                       ? null
                       : flexRender(

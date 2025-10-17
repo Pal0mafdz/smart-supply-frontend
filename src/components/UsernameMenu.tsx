@@ -25,21 +25,21 @@ const UsernameMenu = () => {
           }`}
         >
           <Avatar className="h-6 w-6">
-            {/* <AvatarImage src={user?.picture} /> */}
+
             <AvatarFallback>{fallbackLetter}</AvatarFallback>
           </Avatar>
           {!collapsed && (
-            <span className="truncate text-white">{user?.email}</span>
+            <span className="truncate text-stone-300">{user?.email}</span>
           )}
         </div>
             
         </DropdownMenuTrigger>
-        <DropdownMenuContent side="right" className="bg-zinc-900 text-zinc-300 hover: bg">
+        <DropdownMenuContent side="right" className="bg-stone-900 text-stone-300 ">
             <DropdownMenuItem>
-            <Link to= "/user-profile" className=" hover:bg-gray">Perfil de Usuario</Link>
+            <Link to= "/user-profile">Perfil de Usuario</Link>
             </DropdownMenuItem>
             <DropdownMenuItem >
-            <Button className="flex flex-1 bg-zinc-600" onClick={()=> logout()}>Cerrar Sesion</Button>
+            <Button className="flex flex-1 bg-stone-600" onClick={()=> logout()}>Cerrar Sesion</Button>
             </DropdownMenuItem>
         </DropdownMenuContent>
 

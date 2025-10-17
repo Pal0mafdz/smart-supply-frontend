@@ -15,12 +15,15 @@ export type Product = {
     quantityInStock: number,
     unitprice: number,
     total: number,
+    date: Date,
+
 }
 
 export type CategoryProd = {
     _id: string,
     name: string,
 }
+
 
 export type Movement = {
     _id: string,
@@ -36,3 +39,19 @@ export type Movement = {
 }
 
 
+export type RecipeProduct = {
+    product: Product;   // objeto populado desde el back
+    quantity: number;
+    cost?: number;
+  };
+  
+  export type Recipe = {
+    _id?: string;
+    recipename: string;
+    products: RecipeProduct[];  
+    totalCost: number;
+    description: string;
+    imageUrl: string;
+    typeOR: "Entradas" | "Platos Fuertes" | "Postres";
+    createdAt: Date;
+  };

@@ -3,7 +3,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-//const CATEGORIES_QUERY_KEY = ["fetchMyCategories"] as const;
 
 export const useGetCategoriesProd = () =>{
     const {getAccessTokenSilently} = useAuth0();

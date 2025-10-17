@@ -86,7 +86,7 @@ export const useGetProductById = (productId?: string)=>{
 
 export const useEditProduct = () => {
     const {getAccessTokenSilently} = useAuth0();
-    const editProductRequest = async({productId, updates}: {productId: string, updates: {unitprice: number, quantityInStock: number, note: string}}): Promise<Product> => {
+    const editProductRequest = async({productId, updates}: {productId: string, updates: {quantityInStock: number, note: string}}): Promise<Product> => {
         const accessToken = await getAccessTokenSilently();
         const response = await fetch(`${API_BASE_URL}/api/my/product/${productId}`, {
             method: "PUT",
@@ -123,46 +123,6 @@ export const useEditProduct = () => {
 }
 
 
-
-/*
-export const useEditProduct = () => {
-    const {getAccessTokenSilently} = useAuth0();
-    const editProductRequest = async({productFormData, productId}: {productFormData: FormData, productId: string}): Promise<Product> => {
-        const accessToken = await getAccessTokenSilently();
-        const response = await fetch(`${API_BASE_URL}/api/my/product/${productId}`, {
-            method: "PUT",
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-                
-            },
-            body: productFormData,
-        })
-
-        if(!response.ok){
-            throw new Error("Failed to update product");
-        }
-        return response.json();
-
-    }
-
-    const { mutateAsync: editProduct, isPending:isLoading, isError, isSuccess} = useMutation({mutationFn: editProductRequest,
-        onSuccess: () => {
-            toast.success("Se ha actualizado correctamente!");
-          },
-          onError: (err: Error) => {
-            toast.error(err.message || "Error al actualizar el producto");
-          },
-    });
-
-    return {
-        editProduct,
-        isLoading,
-        isError,
-        isSuccess,
-    }
-}
-
-*/
 
 export const useDeleteProduct = () => {
     const {getAccessTokenSilently} = useAuth0();

@@ -42,7 +42,7 @@ const AppRoutes = () => {
         </Route> 
 
         <Route element={<RoleProtectedRoute allowedRoles={["admin", "contador"]}/>}>
-          <Route path="/recipes" element={<Layout><RecipesPage/></Layout>}/>
+          <Route path="/recipes" element={<Layout bgColor="bg-stone-100"><RecipesPage/></Layout>}/>
         </Route>
         
         
