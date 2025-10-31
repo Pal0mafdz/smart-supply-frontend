@@ -9,21 +9,26 @@ import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import ImageAspect from "./ImageAspect";
-import { SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Select } from "@/components/ui/select";
+import { SelectContent, SelectItem, SelectTrigger, SelectValue, Select } from "@/components/ui/select";
+
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   recipename: z.string().min(1, "El nombre es requerido"),
   description: z.string().min(1, "La descripción es requerida"),
-  typeOR: z.enum(["Entradas", "Platos fuertes", "Postres"]),
+  typeOR: z.enum(["Desayunos","Entradas", "Platos fuertes", "Postres"]),
   products: z.array(
     z.object({
       productId: z.string().min(1, "Selecciona un producto"),
       quantity: z.coerce.number().min(0.01, "Debe ser mayor que 0"),
     })
   ),
-  imageFile: z.any().refine((file) => file?.length > 0, "La imagen es requerida"),
+  imageFile: z.any().refine((file) => file?.length > 0 , "La imagen es requerida"),
 });
+
+const editImage = formSchema.extend({
+  imageFile: z.any().optional(),
+})
 
 type RecipeFormData = z.infer<typeof formSchema>;
 
@@ -35,12 +40,14 @@ type Props = {
 
 const RecipeForm = ({ onSave, isLoading, recipeData }: Props) => {
   const form = useForm<RecipeFormData>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(recipeData ? editImage : formSchema),
+    mode: "onSubmit",
     defaultValues: {
       recipename: "",
       description: "",
-      typeOR: "Entradas",
+      typeOR: "Desayunos",
       products: [{ productId: "", quantity: 0 }],
+      
     },
   });
 
@@ -54,6 +61,7 @@ const RecipeForm = ({ onSave, isLoading, recipeData }: Props) => {
   const watchedProducts = watch("products");
 
   useEffect(() => {
+
     if(!inventoryProducts || !recipeData) return;
 
     reset({
@@ -95,6 +103,7 @@ const RecipeForm = ({ onSave, isLoading, recipeData }: Props) => {
 
 
   const onSubmit = async (formDataJson: RecipeFormData) => {
+    // console.log('Hola que hace ' )
     const formData = new FormData();
     formData.append("recipename", formDataJson.recipename);
     formData.append("description", formDataJson.description);
@@ -110,42 +119,48 @@ const RecipeForm = ({ onSave, isLoading, recipeData }: Props) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
-      <FormField 
-  control={control}
-  name="typeOR"
-  render={({ field }) => (
-    <FormItem className="flex items-center gap-3">
-      <FormLabel className="whitespace-nowrap">Tipo de Receta</FormLabel>
-      <FormControl className="flex-1">
-        <Select value={field.value} onValueChange={(val) => field.onChange(val)}>
-          <SelectTrigger>
-            <SelectValue placeholder="Selecciona un tipo" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="Entradas">Entradas</SelectItem>
-            <SelectItem value="Platos fuertes">Platos fuertes</SelectItem>
-            <SelectItem value="Postres">Postres</SelectItem>
-          </SelectContent>
-        </Select>
-      </FormControl>
-      <FormMessage />
-    </FormItem>
-  )}
-/>
+    <FormField 
+        control={control}
+        name="typeOR"
+        render={({ field }) => (
+          <FormItem className="flex items-center gap-3">
+            <FormLabel className="whitespace-nowrap">Tipo de Receta</FormLabel>
+            <FormControl className="flex-1">
+              <Select value={field.value} onValueChange={(val) => field.onChange(val)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecciona un tipo" />
+                </SelectTrigger>
+                <SelectContent className="bg-white">
+                  <SelectItem value="Desayunos">Desayunos</SelectItem>
+                  <SelectItem value="Entradas">Entradas</SelectItem>
+                  <SelectItem value="Platos fuertes">Platos fuertes</SelectItem>
+                  <SelectItem value="Postres">Postres</SelectItem>
+                </SelectContent>
+              </Select>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+              )}
+            />
 
-        <FormField
+          <FormField
           control={control}
           name="recipename"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Nombre de la receta</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Ej: Ensalada de Pollo" />
+                <Input {...field} placeholder="Ej: Ensalada de Pollo" 
+                className={cn("border bg-white",
+                  form.formState.errors.recipename && "!border-red-500"
+                )}/>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+
+
 
 
         <FormField
@@ -155,7 +170,10 @@ const RecipeForm = ({ onSave, isLoading, recipeData }: Props) => {
             <FormItem>
               <FormLabel>Descripción</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Describe tu receta..." />
+                <Input {...field} placeholder="Describe tu receta..." 
+                className={cn("bg-white",
+                  form.formState.errors.recipename && "border-red-500 focus-visible:ring-red-500"
+                )}/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -179,6 +197,9 @@ const RecipeForm = ({ onSave, isLoading, recipeData }: Props) => {
                         newSearch[index] = val;
                         setSearchValue(newSearch);
                       }}
+                      className={cn(
+                        form.formState.errors.products?.[index]?.productId && "border-red-500 focus-visible:ring-red-500"
+                      )}
                     />
                     <CommandList>
                       <CommandEmpty>No hay productos</CommandEmpty>
@@ -207,7 +228,10 @@ const RecipeForm = ({ onSave, isLoading, recipeData }: Props) => {
 
                   <Input
                     type="number"
-                    className="w-24"
+                    className={cn(
+                      "w-24 bg-white",
+                      form.formState.errors.products?.[index]?.quantity && "border-red-500 focus-visible:ring-red-500"
+                    )}
                     placeholder="Cantidad"
                     value={product.quantity}
                     onChange={(e) => {
@@ -215,6 +239,8 @@ const RecipeForm = ({ onSave, isLoading, recipeData }: Props) => {
                       newProducts[index].quantity = parseFloat(e.target.value);
                       field.onChange(newProducts);
                     }}
+
+                    
                   />
 
                   <span className="w-24 text-sm text-gray-700">
@@ -244,6 +270,7 @@ const RecipeForm = ({ onSave, isLoading, recipeData }: Props) => {
                 onClick={() =>
                   field.onChange([...field.value, { productId: "", quantity: 0 }])
                 }
+                className="bg-white"
               >
                 <Plus className="w-4 h-4 mr-1" /> Agregar ingrediente
               </Button>
@@ -251,24 +278,30 @@ const RecipeForm = ({ onSave, isLoading, recipeData }: Props) => {
           )}
         />
 
-
-<FormField
-  control={control}
-  name="imageFile"
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel>Imagen de la receta</FormLabel>
-      <FormControl>
-        <ImageAspect
-          onChange={(file) => field.onChange(file ? [file] : [])}
-          value={field.value?.[0] || null}
-          existingImageUrl={recipeData?.imageUrl} // <-- aquí pasas la imagen existente
-        />
-      </FormControl>
-      <FormMessage />
-    </FormItem>
-  )}
-/>
+            <FormField
+              control={control}
+              name="imageFile"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Imagen de la receta</FormLabel>
+                  <FormControl>
+                    <div
+                      className={cn(
+                        "p-2 rounded-md",
+                        form.formState.errors.imageFile && "border border-red-500"
+                      )}
+                    >
+                      <ImageAspect
+                        onChange={(file) => field.onChange(file ? [file] : [])}
+                        value={field.value?.[0] || null}
+                        existingImageUrl={recipeData?.imageUrl}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
 
 
@@ -277,11 +310,11 @@ const RecipeForm = ({ onSave, isLoading, recipeData }: Props) => {
         </div>
 
 
-        <Button type="submit" disabled={isLoading} className="w-full bg-stone-900 text-stone-300">
-          {isLoading ? "Guardando..." : "Agregar receta"}
-        </Button>
-      </form>
-    </Form>
+            <Button type="submit" disabled={isLoading} className="w-full bg-stone-900 text-stone-300">
+      {isLoading ? "Guardando..." : "Guardar"}
+    </Button>
+          </form>
+        </Form>
   );
 };
 

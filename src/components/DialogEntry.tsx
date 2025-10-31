@@ -99,3 +99,4 @@ const DialogEntry = ({product, open, onClose}: Props) => {
 }
 
 export default DialogEntry
+

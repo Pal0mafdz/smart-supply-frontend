@@ -12,6 +12,37 @@ type AddProduct = {
 }
 
 
+export const useGetProducts = () => {
+    const {getAccessTokenSilently}= useAuth0();
+    const getProductsRequest = async(): Promise<Product[]> => {
+        const accessToken = await getAccessTokenSilently();
+
+        const response = await fetch(`${API_BASE_URL}/api/my/product`, {
+            method: "GET",
+            headers:{
+                Authorization: `Bearer ${accessToken}`,
+                "Content-Type": "application/json",
+            },
+            
+
+        })
+        if(!response.ok){
+
+            throw new Error("Failed to fetch products");
+        }
+        return response.json();
+
+    }
+
+    const {data: products, isLoading} = useQuery({queryKey: ["products"], queryFn: getProductsRequest});
+
+    return {products, isLoading};
+
+   
+}
+
+
+
 export const useAddProduct = () =>{
     const {getAccessTokenSilently} = useAuth0();
     const queryClient = useQueryClient();
@@ -86,6 +117,7 @@ export const useGetProductById = (productId?: string)=>{
 
 export const useEditProduct = () => {
     const {getAccessTokenSilently} = useAuth0();
+    const queryClient = useQueryClient();
     const editProductRequest = async({productId, updates}: {productId: string, updates: {quantityInStock: number, note: string}}): Promise<Product> => {
         const accessToken = await getAccessTokenSilently();
         const response = await fetch(`${API_BASE_URL}/api/my/product/${productId}`, {
@@ -107,6 +139,7 @@ export const useEditProduct = () => {
 
     const { mutateAsync: editProduct, isPending:isLoading, isError, isSuccess} = useMutation({mutationFn: editProductRequest,
         onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ["products"]});
             toast.success("Se ha actualizado correctamente!");
           },
           onError: (err: Error) => {
@@ -164,35 +197,6 @@ export const useDeleteProduct = () => {
 
 }
 
-export const useGetProducts = () => {
-    const {getAccessTokenSilently}= useAuth0();
-    const getProductsRequest = async(): Promise<Product[]> => {
-        const accessToken = await getAccessTokenSilently();
-
-        const response = await fetch(`${API_BASE_URL}/api/my/product`, {
-            method: "GET",
-            headers:{
-                Authorization: `Bearer ${accessToken}`,
-                "Content-Type": "application/json",
-            },
-            
-
-        })
-        if(!response.ok){
-
-            throw new Error("Failed to fetch products");
-        }
-        return response.json();
-
-    }
-
-    const {data: products, isLoading} = useQuery({queryKey: ["products"], queryFn: getProductsRequest});
-
-    return {products, isLoading};
-
-   
-}
-
 export const getMovements = () =>{
     const {getAccessTokenSilently} = useAuth0();
     const getMovementsRequest = async(): Promise<Movement[]> => {
@@ -200,7 +204,7 @@ export const getMovements = () =>{
         const response = await fetch(`${API_BASE_URL}/api/my/movement`, {
             method: "GET",
             headers:{
-                Authorization: `Bearer${accessToken}`
+                Authorization: `Bearer ${accessToken}`
             }
         })
         if(!response.ok){

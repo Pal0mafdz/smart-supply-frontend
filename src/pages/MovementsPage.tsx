@@ -47,7 +47,6 @@ const MovementsPage = () => {
     <div className="w-full p-7 space-y-6">
     <InventoryNav/>
 
-    {/* <DataTable columns={columns} data={movements??[]}/> */}
     <MovementTable columns={columns} data={movements??[]}/>
     </div>
   )

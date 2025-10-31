@@ -9,6 +9,9 @@ import RoleProtectedRoute from "./auth/RoleProtectedRoute";
 import InventoryPage from "./pages/InventoryPage";
 import MovementsPage from "./pages/MovementsPage";
 import RecipesPage from "./pages/RecipesPage";
+import TablesPage from "./pages/TablesPage";
+import CartPage from "./pages/CartPage";
+import SuppliersPage from "./pages/SuppliersPage";
 
 
 
@@ -41,8 +44,20 @@ const AppRoutes = () => {
           <Route path="/movements-inventory" element={<Layout><MovementsPage/></Layout>}/>
         </Route> 
 
+        <Route element={<RoleProtectedRoute allowedRoles={["admin", "almacenista", "contador"]}/>}>
+          <Route path="/suppliers" element={<Layout><SuppliersPage/></Layout>}/>
+        </Route> 
+
         <Route element={<RoleProtectedRoute allowedRoles={["admin", "contador"]}/>}>
-          <Route path="/recipes" element={<Layout bgColor="bg-stone-100"><RecipesPage/></Layout>}/>
+          <Route path="/recipes" element={<Layout><RecipesPage/></Layout>}/>
+        </Route>
+
+        <Route element={<RoleProtectedRoute allowedRoles={["admin", "mesero", 'gerente']}/>}>
+          <Route path="/tables" element={<Layout><TablesPage/></Layout>}/>
+        </Route>
+        
+        <Route element={<RoleProtectedRoute allowedRoles={["admin", "mesero", 'gerente']}/>}>
+          <Route path="/menu-cart" element={<Layout><CartPage/></Layout>}/>
         </Route>
         
         

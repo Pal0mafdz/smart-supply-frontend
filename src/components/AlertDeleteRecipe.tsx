@@ -1,8 +1,7 @@
 import type { Recipe } from "@/types";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
-import { useState } from "react";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle} from "./ui/alert-dialog";
 import { useDeleteRecipe } from "@/api/MyRecipeApi";
-import { Button } from "@/components/ui/button";
+
 
 type Props = {
     recipe: Recipe;
@@ -11,8 +10,6 @@ type Props = {
 }
 const AlertDeleteRecipe = ({recipe, open, onClose}: Props) => {
     const { deleteRecipe, isLoading } = useDeleteRecipe();
-  // const [open, setOpen] = useState(false);
-
   const handleDelete = async () => {
     if (!recipe?._id) {
       console.error("No se encuentra el ID de la receta");
@@ -29,14 +26,6 @@ const AlertDeleteRecipe = ({recipe, open, onClose}: Props) => {
   return (
     <AlertDialog open={open} onOpenChange={onClose}>
      
-      {/* <AlertDialogTrigger asChild>
-        <Button
-          size="sm"
-          className="px-3 py-1 bg-stone-900 text-stone-300 rounded-2xl hover:bg-red-600"
-        >
-          Eliminar
-        </Button>
-      </AlertDialogTrigger> */}
 
       <AlertDialogContent>
         <AlertDialogHeader>

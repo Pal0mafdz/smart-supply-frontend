@@ -5,16 +5,25 @@ import {
 } from "@/components/ui/menubar";
 import { useState } from "react";
 
-const RecipeMenu = () => {
+type Props = {
+  onSelectCategory: (category: string) => void;
+}
+
+const RecipeMenu = ({onSelectCategory}: Props) => {
   const [activeTab, setActiveTab] = useState("recetas");
 
   const tabs = [
     { id: "recetas", label: "Recetas" },
+    { id: "desayunos", label: "Desayunos" },
     { id: "entradas", label: "Entradas" },
     { id: "platos", label: "Platos fuertes" },
     { id: "postres", label: "Postres" },
   ];
 
+  const handleClick = (tabId: string) => {
+    setActiveTab(tabId);
+    onSelectCategory(tabId);
+  }
   return (
     // <div className="w-full bg-white shadow-sm border-b border-zinc-200 rounded-3xl">
     <div className="w-full ">
@@ -23,7 +32,7 @@ const RecipeMenu = () => {
           {tabs.map((tab) => (
             <MenubarMenu key={tab.id}>
               <MenubarTrigger
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => handleClick(tab.id)}
                 
                 className={`px-4 py-2 rounded-2xl transition-all duration-200 select-none font-medium
                 ${

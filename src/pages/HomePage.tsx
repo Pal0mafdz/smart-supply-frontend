@@ -1,5 +1,4 @@
 
-
 const HomePage = () => {
   return (
     <div>HomePage, graficas wush</div>

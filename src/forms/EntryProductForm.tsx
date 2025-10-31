@@ -87,7 +87,9 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
         unit: "",
         quantityInStock: 0,
         unitprice: 0.0,
-        }
+        },
+        mode: "onChange",       // ← clave
+
     });
 
     const { control, watch } = form;
@@ -134,13 +136,13 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 
             <FormField
-            control={control}
+            control={form.control}
             name="codeNum"
-            render={({ field }) => (
+            render={({ field}) => (
                 <FormItem>
                 <FormLabel>Código</FormLabel>
                 <FormControl>
-                    <Input {...field} />
+                    <Input {...field} className='bg-white'/>
                 </FormControl>
                 <FormMessage />
                 </FormItem>
@@ -154,7 +156,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
                 <FormItem>
                 <FormLabel>Nombre</FormLabel>
                 <FormControl>
-                    <Input {...field} />
+                    <Input {...field} className='bg-white'/>
                 </FormControl>
                 <FormMessage />
                 </FormItem>
@@ -212,10 +214,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 
         
                     </FormControl>
-                    {/* <Button type="button" size="icon" onClick={()=> setShowNewCategory((prev)=> !prev)}>
-                        <Plus className='w-4 h-4'/>
-                        </Button> */}
-                        {/* </div> */}
+                   
                     <FormMessage/>
                 </FormItem>)}/>
 
@@ -234,7 +233,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
                 <FormItem>
                 <FormLabel>Unidad</FormLabel>
                 <FormControl>
-                    <Input {...field} />
+                    <Input {...field} className='bg-white'/>
                 </FormControl>
                 <FormMessage />
                 </FormItem>
@@ -248,7 +247,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
                 <FormItem>
                 <FormLabel>Cantidad</FormLabel>
                 <FormControl>
-                    <Input type="number" {...field} />
+                    <Input type="number" {...field} className='bg-white'/>
                 </FormControl>
                 <FormMessage />
                 </FormItem>
@@ -262,7 +261,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
                 <FormItem>
                 <FormLabel>Precio unitario</FormLabel>
                 <FormControl>
-                    <Input type="number" step="0.01" {...field} />
+                    <Input type="number" step="0.01" {...field} className='bg-white' />
                 </FormControl>
                 <FormMessage />
                 </FormItem>
@@ -272,7 +271,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
             <FormItem>
             <FormLabel>Total (solo lectura)</FormLabel>
             <FormControl>
-                <Input value={total.toFixed(2)} readOnly />
+                <Input value={total.toFixed(2)} readOnly className='bg-white'/>
             </FormControl>
             </FormItem>
 
@@ -290,5 +289,6 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
     }
 
 export default EntryProductForm;
+
 
 

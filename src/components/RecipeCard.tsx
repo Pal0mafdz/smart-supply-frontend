@@ -28,17 +28,10 @@ const RecipeCard = ({ recipe }: Props) => {
 
   
   return (
-    <Card className="w-80 h-[520px] flex flex-col justify-between rounded-3xl hover:shadow-lg transition-shadow">
+    <Card className="w-80 h-[555px] flex flex-col justify-between rounded-3xl hover:shadow-lg transition-shadow">
   <div>
     <CardHeader className="flex justify-center p-3">
-      {/* <div className="rounded-2xl overflow-hidden w-full h-44">
-        <img
-          src={recipe.imageUrl}
-          alt={recipe.recipename}
-          className="w-full h-full object-cover"
-          
-        />
-      </div> */}
+     
       <div className="rounded-2xl overflow-hidden w-full h-44 relative">
   <img
     src={recipe.imageUrl}
@@ -53,7 +46,7 @@ const RecipeCard = ({ recipe }: Props) => {
     <Separator />
 
     <CardContent className="p-3 space-y-3 flex-1 overflow-hidden">
-      <div>
+      <div className='h-18'>
         <h2 className="text-base font-bold truncate">{recipe.recipename}</h2>
         <p className="text-xs text-gray-600 line-clamp-2">{recipe.description}</p>
       </div>

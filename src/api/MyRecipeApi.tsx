@@ -58,7 +58,7 @@ export const useAddRecipe = () => {
         })
         if(!response.ok){
 
-            throw new Error("Failed to fetch products");
+            throw new Error("Failed to fetch recipes");
         }
         return response.json();
 
@@ -72,7 +72,7 @@ export const useAddRecipe = () => {
 export const useEditRecipe = () => {
   const {getAccessTokenSilently}= useAuth0();
   const queryClient = useQueryClient();
-  const editRecipeRequest = async({id, recipedata}: {id: string, recipedata: FormData}): Promise<Recipe[]> => {
+  const editRecipeRequest = async({id, recipedata}: {id: string, recipedata: FormData}): Promise<Recipe> => {
       const accessToken = await getAccessTokenSilently();
 
       const response = await fetch(`${API_BASE_URL}/api/my/recipe/${id}`, {
@@ -87,7 +87,7 @@ export const useEditRecipe = () => {
       })
       if(!response.ok){
 
-          throw new Error("Failed to fetch products");
+          throw new Error("Failed to edit recipe");
       }
       return response.json();
 

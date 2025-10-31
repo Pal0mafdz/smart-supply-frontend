@@ -9,7 +9,6 @@ export type Product = {
     _id: string,
     codeNum: string,
     name: string,
-    //category: "enlatados" | "congelados" | "secos" | "carnes" | "lacteos" | "frutas"| "verduras"|"especias"| "pescados",  
     category: CategoryProd;
     unit: string,
     quantityInStock: number,
@@ -52,6 +51,51 @@ export type RecipeProduct = {
     totalCost: number;
     description: string;
     imageUrl: string;
-    typeOR: "Entradas" | "Platos Fuertes" | "Postres";
+    typeOR: "Desayunos" |"Entradas" | "Platos Fuertes" | "Postres" | "Todos";
     createdAt: Date;
   };
+
+  export type Dish = {
+    _id?: string;
+    recipeId: string;       
+    name: string;           
+    quantity: number;
+    note?: string;
+    subtotal: number;       
+    totalCost: number;      
+  };
+
+  export type Order = {
+    _id?: string;
+    number: number;
+    dishes: Dish[];
+    status: "recibido" | "en preparacion" | "listo para servir" | "entregado" | "pagado";
+    total: number;
+    createdAt?: Date;
+    updatedAt?: Date;
+  };
+
+  export type Table = {
+    status: any;
+    _id?: string;
+    number: number;
+    waiterId: string;     
+    state: "abierta" | "cerrada" | "reservada" | "disponible" ;
+    area: "Terraza" | "Area Principal";
+    order: string;     
+    openedAt?: Date;
+    closedAt?: Date;
+    capacity: number; //la capacidad es de cuantos asientos es
+    customers: number;
+
+  };
+
+  export type Supplier = {
+    _id?: string;
+    supplierName: string;
+    email?: string;
+    phone?: string;
+    website: string;
+    leadTimeDays: number;  // tiempo de entrega
+    minOrderValue: number; // mínimo por compra
+  }

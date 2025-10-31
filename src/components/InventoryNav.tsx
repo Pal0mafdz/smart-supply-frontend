@@ -39,6 +39,16 @@ const InventoryNav = () => {
             <Link to="/movements-inventory">Historial</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
+
+        <BreadcrumbSeparator/>
+        <BreadcrumbItem>
+          <BreadcrumbLink asChild>
+            <Link to="/suppliers">Proveedores</Link>
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+
+
+
       </BreadcrumbList>
     
 

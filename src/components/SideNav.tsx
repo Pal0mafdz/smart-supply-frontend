@@ -6,6 +6,11 @@ import { Apple, BanknoteArrowUp, ChefHat, CookingPot,   Trash2,  User,  Users, U
 import { useAuth0 } from "@auth0/auth0-react"
 import UsernameMenu from "./UsernameMenu"
 import { Link, useLocation } from "react-router-dom"
+import React from "react"
+
+type Props = {
+  autoCollapse?: boolean;
+}
 
 const items = [
   {
@@ -42,30 +47,46 @@ const items = [
 
   {
     title: "Mesas disponibles",
-    url: "#",
+    url: "/tables",
     icon: Utensils,
   },
+  
+
   
   
 ]
 
-const SideNav = () => {
+const SideNav = ({autoCollapse = false}: Props) => {
 
   const {loginWithRedirect, isAuthenticated} = useAuth0();
-  const {state} = useSidebar();
-  
-
-  //estado del item
+  const {state, toggleSidebar, open} = useSidebar();
   const location = useLocation();
   const collapsed = state === "collapsed"
 
+  const collapsePages = ["/tables", "/menu-cart", "/orders"];
+  const shouldCollapse = collapsePages.includes(location.pathname);
+
+  React.useEffect(() => {
+
+    if (shouldCollapse && open) {
+      toggleSidebar();
+    }
+
+
+    if (!shouldCollapse && !open) {
+      toggleSidebar();
+    }
+
+  }, [shouldCollapse]); // solo se ejecuta al cambiar de ruta
+
+
   return (
     <Sidebar collapsible="icon">
-        <SidebarHeader className="px-4 py-3 bg-stone-900 text-stone-300">
+        <SidebarHeader className="px-4 py-3 bg-black text-stone-300">
             <h2>{collapsed? "SS" : "SmartSupply"}</h2>
         </SidebarHeader>
-        <Separator className="bg-stone-700"/>
-      <SidebarContent className="bg-stone-900 text-stone-300">
+        <Separator className="bg-stone-300"/>
+      <SidebarContent className="bg-black text-cream">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -75,7 +96,7 @@ const SideNav = () => {
                   <SidebarMenuButton
                     asChild
                     className={`hover:bg-stone-300 ${
-                      location.pathname === item.url ? "bg-stone-300 text-stone-900" : ""
+                      location.pathname === item.url ? "bg-stone-300 text-black" : ""
                     }`}
                   >
                     <Link to={item.url} className="flex items-center space-x-2">
@@ -91,13 +112,13 @@ const SideNav = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <Separator className="bg-stone-700"/>
-      <SidebarFooter className="px-4 py-3 bg-stone-900">
+      <Separator className="bg-stone-300"/>
+      <SidebarFooter className="px-4 py-3 bg-black">
        
           {isAuthenticated? (
             <UsernameMenu/>
           ):(
-            <Button className="w-full bg-stone-300 text-stone-900 hover:bg-stone-700 hover:text-stone-300" onClick={async () => await loginWithRedirect()}>
+            <Button className="w-full bg-stone-300 text-black hover:bg-stone-700 hover:text-stone-300" onClick={async () => await loginWithRedirect()}>
               {collapsed?<User className="h-5 w-5"/> :  "Iniciar Sesion"}
               </Button>
           )}
