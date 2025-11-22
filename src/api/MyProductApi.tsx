@@ -1,4 +1,4 @@
-import type { Movement, Product } from "@/types";
+import type { Movement, Product, Shrinkage } from "@/types";
 import { useAuth0 } from "@auth0/auth0-react"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -10,6 +10,137 @@ type AddProduct = {
     product: Product,
     movement: Movement,
 }
+
+type EditProductMovementArgs = {
+  productId: string;
+  updates: {
+    type: "entrada" | "salida" | "merma";
+    quantity: number;
+    note?: string;
+  }
+}
+
+export const useGetShrinkages = () => {
+  const {getAccessTokenSilently} = useAuth0();
+  const getShrinkagesRequest = async(): Promise<Shrinkage[]> => {
+    const accessToken = await getAccessTokenSilently();
+    const response = await fetch(`${API_BASE_URL}/api/my/product/shrinkages`, {
+        method: "GET",
+        headers:{
+            Authorization: `Bearer ${accessToken}`
+        }
+    })
+    if(!response.ok){
+        throw new Error("Failed to fetch shrinkages");
+    }
+    return response.json();
+}
+const {data: shrinkages, isLoading} = useQuery({queryKey: ["fetchShrinkages"], queryFn: getShrinkagesRequest});
+
+return {shrinkages, isLoading};
+}
+
+export const useEditProduct = () => {
+  const { getAccessTokenSilently } = useAuth0();
+  const queryClient = useQueryClient();
+
+  const editProductRequest = async ({
+    productId,
+    updates,
+  }: EditProductMovementArgs) => {
+    const accessToken = await getAccessTokenSilently();
+
+    const response = await fetch(
+      `${API_BASE_URL}/api/my/product/${productId}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updates),
+      }
+    );
+
+    if (!response.ok) {
+      const errorBody = await response.json().catch(() => ({}));
+      throw new Error(errorBody.message || "Error al registrar movimiento");
+    }
+
+    return (await response.json()) as {
+      product: Product;
+      movement: any;
+    };
+  };
+
+  const {
+    mutateAsync: editProduct,
+    isPending: isLoading,
+  } = useMutation({
+    mutationFn: editProductRequest,
+    onSuccess: () => {
+      toast.success("Movimiento registrado correctamente");
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ["movements"] });
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || "Error al registrar movimiento");
+    },
+  });
+
+  return { editProduct, isLoading };
+};
+
+
+
+
+
+export const useExportProductsToExcel = () => {
+    const { getAccessTokenSilently } = useAuth0();
+  
+    const exportProductsRequest = async () => {
+      const accessToken = await getAccessTokenSilently();
+  
+      const response = await fetch(`${API_BASE_URL}/api/my/product/export`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error("Error al exportar productos a Excel");
+      }
+  
+      // Recibimos el blob (archivo Excel)
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+  
+      // Crear un link temporal para forzar la descarga
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "productos.xlsx");
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    };
+  
+    const { mutateAsync: exportProducts, isPending: isLoading } = useMutation({
+      mutationFn: exportProductsRequest,
+      onSuccess: () => {
+        toast.success("Archivo Excel generado correctamente 📦");
+      },
+      onError: (err: Error) => {
+        toast.error(err.message || "No se pudo exportar el archivo Excel");
+      },
+    });
+  
+    return {
+      exportProducts,
+      isLoading,
+    };
+  };
 
 
 export const useGetProducts = () => {
@@ -115,45 +246,6 @@ export const useGetProductById = (productId?: string)=>{
 }
 
 
-export const useEditProduct = () => {
-    const {getAccessTokenSilently} = useAuth0();
-    const queryClient = useQueryClient();
-    const editProductRequest = async({productId, updates}: {productId: string, updates: {quantityInStock: number, note: string}}): Promise<Product> => {
-        const accessToken = await getAccessTokenSilently();
-        const response = await fetch(`${API_BASE_URL}/api/my/product/${productId}`, {
-            method: "PUT",
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-                "Content-Type": "application/json",
-                
-            },
-            body: JSON.stringify(updates),
-        })
-
-        if(!response.ok){
-            throw new Error("Failed to update product");
-        }
-        return response.json();
-
-    }
-
-    const { mutateAsync: editProduct, isPending:isLoading, isError, isSuccess} = useMutation({mutationFn: editProductRequest,
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["products"]});
-            toast.success("Se ha actualizado correctamente!");
-          },
-          onError: (err: Error) => {
-            toast.error(err.message || "Error al actualizar el producto");
-          },
-    });
-
-    return {
-        editProduct,
-        isLoading,
-        isError,
-        isSuccess,
-    }
-}
 
 
 

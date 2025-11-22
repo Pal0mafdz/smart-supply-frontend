@@ -7,6 +7,7 @@ import TableLayout from "@/components/TableLayout";
 import { useState } from "react";
 import OpenTableDialog from "@/components/OpenTableDialog";
 import { useNavigate } from "react-router-dom";
+import TableDialog from "@/components/cart-components/TableDialog";
 
 const CANVAS_BG = "bg-[#eeedec]";
 
@@ -32,25 +33,48 @@ const TablesPage = () => {
   const { tables, isLoading } = useGetTables();
   const [selectedTable, setSelectedTable] = useState<Table | undefined>();
   const [openDialog, setOpenDialog] = useState(false);
+  const [openAvailableDialog, setOpenAvailableDialog] = useState(false);
 
   const handleClickTable = (table: Table) => {
-    if(table.state === "abierta"){
-      // setOpenDialog(false);
-      // setSelectedTable(undefined);
-      // navigate(`/menu-cart?tableNumber=${table.number}&customers=${table.customers}&orderId=${table.order}`);
-        
-      setOpenDialog(false);
-      setSelectedTable(undefined);
-      requestAnimationFrame(() => {
-        navigate(
-          `/menu-cart?tableNumber=${table.number}&customers=${table.customers}&orderId=${table.order}`
-        );
-      });
-    }else{
+  //   if(table.state === "abierta"){
+  //     setOpenDialog(false);
+  //     setSelectedTable(undefined);
+  //     setOpenAvailableDialog(false);
+  //     requestAnimationFrame(() => {
+  //       navigate(
+  //         `/menu-cart?tableNumber=${table.number}&customers=${table.customers}&orderId=${table.order}`
+  //       );
+  //     });
+  //   }else{
     
-    setSelectedTable(table);
-    setOpenDialog(true);
+  //   setSelectedTable(table);
+  //   setOpenDialog(true);
+  // }
+  if (table.state === "abierta") {
+    setOpenDialog(false);
+    setOpenAvailableDialog(false);
+    setSelectedTable(undefined);
+
+    // pequeño hack para que cierre bien el dialog antes de navegar
+    requestAnimationFrame(() => {
+      navigate(
+        `/menu-cart?tableNumber=${table.number}&customers=${table.customers}&orderId=${table.order}`
+      );
+    });
+    return;
   }
+
+  // Mesa cerrada → dialog para marcar como disponible
+  if (table.state === "cerrada") {
+    setSelectedTable(table);
+    setOpenAvailableDialog(true);
+    return;
+  }
+
+  // Mesa disponible o reservada → dialog para abrir mesa
+  setSelectedTable(table);
+  setOpenDialog(true);
+
   };
 
   const [activeState, setActiveState] = React.useState<
@@ -119,6 +143,11 @@ const TablesPage = () => {
         table={selectedTable}
         open={openDialog}
         onClose={() => setOpenDialog(false)}
+      />
+       <TableDialog
+        table={selectedTable}
+        open={openAvailableDialog}
+        onClose={() => setOpenAvailableDialog(false)}
       />
     </div>
   );

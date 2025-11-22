@@ -23,20 +23,49 @@ const AuthCallBackPage = () => {
     handleUserCreation();
   }, [createUser, user]);
 
-  // Redirige cuando ya terminó de cargar
+
   useEffect(() => {
     if (!isLoading && !authLoading) {
       if (!currentUser) {
-        // fallback si no se pudo traer el usuario
+
         navigate("/");
         return;
       }
 
-      if (currentUser.role === "unauthorized") {
-        navigate("/user-unauthorized");
-      } else {
-        navigate("/home-page");
+      switch(currentUser.role){
+        case "unauthorized":
+          navigate("/user-unauthorized");
+          break;
+        case "admin":
+          navigate("/admin-homepage");
+          break;
+        case "mesero":
+          navigate("/waiter-homepage");
+          break;
+        case "jefe de cocina":
+          navigate("/chef-homepage");
+          break;
+        case "contador":
+          navigate("/admin-homepage");
+          break;
+        case "gerente":
+            navigate("/admin-homepage");
+            break;
+        case "capitan":
+            navigate("/captain-homepage");
+            break;
+        default:
+          navigate("/");
+          break;
+
+
       }
+
+      // if (currentUser.role === "unauthorized") {
+      //   navigate("/user-unauthorized");
+      // } else {
+      //   navigate("/home-page");
+      // }
     }
   }, [currentUser, isLoading, authLoading, navigate]);
 

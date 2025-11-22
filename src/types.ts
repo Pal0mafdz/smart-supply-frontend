@@ -1,9 +1,17 @@
+import { string } from "zod";
+
 export type User = {
     _id: string,
     name: string,
     email: string,
-    role: "admin" | "jefe de cocina" | "contador" | "mesero" | "almacenista" | "gerente" | "unauthorized", 
+    role: "admin" | "jefe de cocina" | "contador" | "mesero" | "almacenista" | "gerente" | "unauthorized" | "capitan", 
+    lastname?: string;       
+    phone?: string;          
+    bio?: string;         
+    gender?: "femenino" | "masculino" | "no binario" | "otro" | "prefiero no decirlo" | "";
+    avatarUrl?: string;
 }
+
 
 export type Product = {
     _id: string,
@@ -15,8 +23,11 @@ export type Product = {
     unitprice: number,
     total: number,
     date: Date,
+    minStock?: number,
+    maxStock?: number,
 
 }
+
 
 export type CategoryProd = {
     _id: string,
@@ -27,7 +38,7 @@ export type CategoryProd = {
 export type Movement = {
     _id: string,
     product: Product,
-    type: "entrada" | "salida" | "ajuste",
+    type: "entrada" | "salida" | "merma",
     quantity: number,
     prevQuantity: number,
     newQuantity: number,
@@ -37,6 +48,14 @@ export type Movement = {
 
 }
 
+export type Shrinkage = {
+  _id: string,
+  product: Product,
+  decQuantity: number,
+  note: string,
+  date: Date,
+
+}
 
 export type RecipeProduct = {
     product: Product;   // objeto populado desde el back
@@ -55,22 +74,24 @@ export type RecipeProduct = {
     createdAt: Date;
   };
 
+ 
   export type Dish = {
     _id?: string;
-    recipeId: string;       
-    name: string;           
+    recipe: Recipe;
     quantity: number;
     note?: string;
-    subtotal: number;       
-    totalCost: number;      
+    sent: Boolean;
+    subtotal: number;
+    totalCost: number;
+    status: "pendiente" | "en preparacion" | "listo para servir" | "entregado";
   };
 
   export type Order = {
     _id?: string;
     number: number;
     dishes: Dish[];
-    status: "recibido" | "en preparacion" | "listo para servir" | "entregado" | "pagado";
     total: number;
+    waiter: User;
     createdAt?: Date;
     updatedAt?: Date;
   };
@@ -98,4 +119,16 @@ export type RecipeProduct = {
     website: string;
     leadTimeDays: number;  // tiempo de entrega
     minOrderValue: number; // mínimo por compra
+  }
+
+  export type Sale = {
+    _id?: string;
+    order: string | Order;
+    recipe: Recipe;
+    price: number;
+    createdAt: Date;
+  }
+
+  export type Payment = {
+
   }

@@ -1,44 +1,3 @@
-// import { Utensils, ShoppingCart, ChefHat } from "lucide-react";
-// import { Button } from "@/components/ui/button";
-// import { useLocation, useNavigate } from "react-router-dom";
-
-// const BottomNav = () => {
-//   const location = useLocation();
-//   const navigate = useNavigate();
-
-//   const items = [
-//     { label: "Mesas", icon: Utensils, path: "/tables" },
-//     { label: "Carrito", icon: ShoppingCart, path: "/menu-cart" },
-//     { label: "Órdenes", icon: ChefHat, path: "/orders" },
-//   ];
-
-//   return (
-//     <nav className="fixed bottom-0 left-0 w-full bg-black border-t border-stone-700 z-50 flex justify-around py-2">
-//       {items.map((item) => {
-//         const isActive = location.pathname === item.path;
-//         const Icon = item.icon;
-//         return (
-//           <Button
-//             key={item.label}
-//             variant="ghost"
-//             className={`flex flex-col items-center gap-1 text-xs ${
-//               isActive
-//                 ? "text-white"
-//                 : "text-stone-400 hover:text-stone-100"
-//             }`}
-//             onClick={() => navigate(item.path)}
-//           >
-//             <Icon className="h-5 w-5" />
-//             {item.label}
-//           </Button>
-//         );
-//       })}
-//     </nav>
-//   );
-// };
-
-// export default BottomNav;
-
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Utensils, ShoppingCart, ClipboardList } from "lucide-react";
@@ -46,7 +5,7 @@ import { Utensils, ShoppingCart, ClipboardList } from "lucide-react";
 const navItems = [
   { title: "Mesas", url: "/tables", icon: Utensils },
   { title: "Carrito", url: "/menu-cart", icon: ShoppingCart },
-  { title: "Órdenes", url: "/orders", icon: ClipboardList },
+  { title: "Órdenes", url: "/waiter-orders", icon: ClipboardList },
 ];
 
 const BottomNav: React.FC = () => {

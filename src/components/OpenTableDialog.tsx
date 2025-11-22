@@ -47,7 +47,7 @@ const OpenTableDialog = ({ table, open, onClose }: Props) => {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="!max-w-md">
         <DialogHeader>
           <DialogTitle className="text-lg font-semibold">
             Abrir mesa {table.number}

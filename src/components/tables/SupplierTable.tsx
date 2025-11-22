@@ -59,11 +59,11 @@ export function SupplierTable<TData, TValue>({
           onChange={(event) =>
             table.getColumn("Nombre")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm bg-white"
+          className="max-w-sm bg-white border-stone-400"
         />
 
       </div>
-    <div className="overflow-hidden rounded-md border">
+    <div className="overflow-hidden rounded-md border border-stone-400">
       <Table className="bg-white">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -100,7 +100,7 @@ export function SupplierTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                No hay proveedores.
               </TableCell>
             </TableRow>
           )}
@@ -114,7 +114,7 @@ export function SupplierTable<TData, TValue>({
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          Previous
+          Anterior
         </Button>
         <Button
           variant="outline"
@@ -122,7 +122,7 @@ export function SupplierTable<TData, TValue>({
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          Next
+          Siguiente
         </Button>
       </div>
     

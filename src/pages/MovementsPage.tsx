@@ -36,6 +36,17 @@ const columns: ColumnDef<Movement>[] = [
         accessorKey:"note",
         header: "Nota",
       },
+      {
+        header: "Fecha",
+        accessorFn: (row) => {
+          const date = new Date(row.date);
+          return date.toLocaleDateString("es-MX", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          });
+        },
+      }
     
 ]
 
@@ -44,11 +55,14 @@ const MovementsPage = () => {
     if(isLoading) return <Spinner/>
 
   return (
+    
     <div className="w-full p-7 space-y-6">
     <InventoryNav/>
+    
 
     <MovementTable columns={columns} data={movements??[]}/>
     </div>
+    
   )
 }
 

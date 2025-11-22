@@ -8,12 +8,7 @@ const GetStarted = () => {
   const {loginWithRedirect, isAuthenticated} = useAuth0();
   
   return (
-    // <div className="flex justify-center p-7 ">
-    //   <div className="w-full">
-    //     <img src={chart} className="w-100"/>
-    //     {/* <h1>homepage</h1> */}
-    //   </div>
-    // </div>
+    
    
     <div className="flex justify-center items-center p-10 min-h-screen bg-white">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl items-center">

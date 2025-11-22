@@ -1,6 +1,7 @@
 import type { Product } from '@/types'
 import { useEffect, useState } from 'react'
 import { z } from "zod"
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm} from 'react-hook-form';
 import {
@@ -19,11 +20,48 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 
     const formSchema = z.object({
         codeNum: z.string().min(1, "El código es requerido"),
-        name: z.string().min(1, "El nombre es requerido"),
-        category: z.string().min(1, "Selecciona una categoría"),
-        unit: z.string().min(1, "La unidad es requerida"),
-        quantityInStock: z.coerce.number().min(1, { message: "Debe ser mayor que 0" }),
-        unitprice: z.coerce.number().min(0.01, { message: "Debe ser mayor que 0" }),
+    name: z.string().min(1, "El nombre es requerido"),
+    category: z.string().min(1, "Selecciona una categoría"),
+    unit: z.string().min(1, "La unidad es requerida"),
+
+    quantityInStock: z
+      .coerce
+      .number()
+      .refine((v) => !Number.isNaN(v), {
+        message: "Debe ser un número válido",
+      })
+      .min(1, { message: "Debe ser mayor que 0" }),
+
+    unitprice: z
+      .coerce
+      .number()
+      .refine((v) => !Number.isNaN(v), {
+        message: "Debe ser un número válido",
+      })
+      .min(0.01, { message: "Debe ser mayor que 0" }),
+
+    minStock: z
+      .coerce
+      .number()
+      .refine((v) => !Number.isNaN(v), {
+        message: "Debe ser un número válido",
+      })
+      .min(0, { message: "No puede ser negativo" }),
+
+    maxStock: z
+      .coerce
+      .number()
+      .refine((v) => !Number.isNaN(v), {
+        message: "Debe ser un número válido",
+      })
+      .min(0, { message: "No puede ser negativo" }),
+  })
+
+  .refine((data) => data.maxStock >= data.minStock, {
+    path: ["maxStock"],
+    message: "El máximo debe ser mayor o igual al mínimo",
+
+
 
     });
     type ProductFormData = z.infer<typeof formSchema>
@@ -86,13 +124,14 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
         category: "",
         unit: "",
         quantityInStock: 0,
-        unitprice: 0.0,
+        unitprice: 0.00,
+        minStock: 0,
+        maxStock: 0,
         },
-        mode: "onChange",       // ← clave
-
+        mode: "onChange",      
     });
 
-    const { control, watch } = form;
+    const { control, watch, formState: {errors} } = form;
 
     // Actualizamos total cuando cambian quantityInStock o unitprice
     const quantity = watch("quantityInStock");
@@ -111,6 +150,8 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
             unit: product.unit,
             quantityInStock: product.quantityInStock,
             unitprice: product.unitprice,
+            minStock: product.minStock ?? 0,
+            maxStock: product.maxStock ?? 0,
         });
         setTotal(product.quantityInStock * product.unitprice);
         setSearchValue(product.category.name);
@@ -125,6 +166,8 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
         formData.append("unit", formDataJson.unit);
         formData.append("quantityInStock", formDataJson.quantityInStock.toString());
         formData.append("unitprice", formDataJson.unitprice.toString());
+        formData.append("minStock", formDataJson.minStock.toString());
+        formData.append("maxStock", formDataJson.maxStock.toString());
 
         onSave(formData);
     }
@@ -142,7 +185,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
                 <FormItem>
                 <FormLabel>Código</FormLabel>
                 <FormControl>
-                    <Input {...field} className='bg-white'/>
+                    <Input {...field} className='bg-white border-stone-400'/>
                 </FormControl>
                 <FormMessage />
                 </FormItem>
@@ -156,7 +199,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
                 <FormItem>
                 <FormLabel>Nombre</FormLabel>
                 <FormControl>
-                    <Input {...field} className='bg-white'/>
+                    <Input {...field} className='bg-white border-stone-400'/>
                 </FormControl>
                 <FormMessage />
                 </FormItem>
@@ -185,7 +228,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
                         onValueChange={setSearchValue}/>
                         <CommandList>
                             {isLoadingCategories && (
-                                <p className='text-sm textå-gray-500 px-2'>C</p>
+                                <p className='text-sm textå-gray-500 px-2 '>C</p>
                             )}
                             <CommandGroup>
                                 {categories?.map((cat)=> (
@@ -233,7 +276,8 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
                 <FormItem>
                 <FormLabel>Unidad</FormLabel>
                 <FormControl>
-                    <Input {...field} className='bg-white'/>
+                    <Input {...field} className='bg-white border-stone-400' 
+                    onChange={(e) => field.onChange(e.target.value.toUpperCase())}/>
                 </FormControl>
                 <FormMessage />
                 </FormItem>
@@ -247,7 +291,10 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
                 <FormItem>
                 <FormLabel>Cantidad</FormLabel>
                 <FormControl>
-                    <Input type="number" {...field} className='bg-white'/>
+                    <Input type="number" {...field} className={cn(
+            "bg-white border-stone-400",
+            errors.quantityInStock && "border-red-500 focus-visible:ring-red-500"
+          )}/>
                 </FormControl>
                 <FormMessage />
                 </FormItem>
@@ -261,17 +308,68 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
                 <FormItem>
                 <FormLabel>Precio unitario</FormLabel>
                 <FormControl>
-                    <Input type="number" step="0.01" {...field} className='bg-white' />
+                    <Input type="number" step="0.01" {...field} className={cn(
+            "bg-white border-stone-400",
+            errors.quantityInStock && "border-red-500 focus-visible:ring-red-500"
+          )} />
                 </FormControl>
                 <FormMessage />
                 </FormItem>
             )}
             />
 
+
+<div className='flex gap-4'>
+<FormField
+  control={control}
+  name="minStock"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Mínimo en almacén</FormLabel>
+      <FormControl>
+        <Input
+          type="number"
+          {...field}
+          className={cn(
+            "bg-white border-stone-400",
+            errors.minStock && "border-red-500 focus-visible:ring-red-500"
+          )}
+        />
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
+<FormField
+  control={control}
+  name="maxStock"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Máximo en almacén</FormLabel>
+      <FormControl>
+        <Input
+          type="number"
+          {...field}
+          className={cn(
+            "bg-white border-stone-400",
+            errors.maxStock && "border-red-500 focus-visible:ring-red-500"
+          )}
+        />
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+</div>
+
+
+
+
             <FormItem>
             <FormLabel>Total (solo lectura)</FormLabel>
             <FormControl>
-                <Input value={total.toFixed(2)} readOnly className='bg-white'/>
+                <Input value={total.toFixed(2)} readOnly className='bg-white border-stone-400'/>
             </FormControl>
             </FormItem>
 

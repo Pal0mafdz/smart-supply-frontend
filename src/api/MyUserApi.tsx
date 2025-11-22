@@ -17,6 +17,19 @@ type UpdateUserRoleRequest = {
     newRole: string;
 }
 
+type UpdateMyUserRequest = {
+    name?: string;
+    lastname?: string;
+    phone?: string;
+    bio?: string;
+    gender?: "femenino" | "masculino" | "no binario" | "otro" | "prefiero no decirlo" | "";
+    AvatarUrl?: File | null;   
+  };
+
+
+
+
+
 export const useCreateMyUser = ()=> {
     const {getAccessTokenSilently} = useAuth0();
     const createMyUserRequest = async (user: CreateUserRequest)=>{
@@ -110,7 +123,7 @@ export const useGetMyUsers = () => {
 
 
 export const useGetCurrentUser = ()=>{
-    const {getAccessTokenSilently} = useAuth0();
+    const {getAccessTokenSilently, isAuthenticated} = useAuth0();
 
     const getCurrentUserRequest = async(): Promise<User>=> {
         const accessToken = await getAccessTokenSilently();
@@ -128,9 +141,46 @@ export const useGetCurrentUser = ()=>{
         }
         return response.json();
     }
-    const {data: currentUser, isLoading} = useQuery({queryKey: ["fetchCurrentUser"], queryFn: getCurrentUserRequest});
+    const {data: currentUser, isLoading} = useQuery({queryKey: ["fetchCurrentUser"], queryFn: getCurrentUserRequest, enabled: isAuthenticated,});
 
     return {currentUser, isLoading};
 
 }
 
+
+export const useUpdateMyUser = () =>{
+
+    const{ getAccessTokenSilently } = useAuth0();
+    const queryClient = useQueryClient();
+    const useUpdateMyUserRequest = async (formData: FormData)=>{ 
+        const accessToken = await getAccessTokenSilently();
+
+        const response = await fetch(`${API_BASE_URL}/api/my/user/profile`, {
+            method: "PUT",
+            headers:{
+                Authorization: `Bearer ${accessToken}`,
+               
+            },
+            body: formData,
+        });
+
+        if(!response.ok){
+            throw new Error("Error al actualizar tu perfil");
+        }
+        return response.json();
+
+    }
+
+    const { mutateAsync: updateUserProfile, isPending: isLoading } = useMutation({
+        mutationFn: useUpdateMyUserRequest,
+        onSuccess: () => {
+          toast.success("Se ha actualizado el Perfil");
+          queryClient.invalidateQueries({ queryKey: ["fetchCurrentUser"] });
+        },
+        onError: (err: Error) => {
+          toast.error(err.message || "Error al actualizar el rol");
+        },
+      });
+
+    return { updateUserProfile, isLoading};
+}

@@ -45,7 +45,7 @@ const DialogRecipe = ({recipe, open, onClose, title}: Props) => {
   return (
     <Dialog open={open} onOpenChange={(isOpen)=>!isOpen && onClose() }>
    
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl">
+      <DialogContent className="!max-w-2xl !max-h-[90vh] overflow-y-auto rounded-2xl">
         <DialogHeader>
           <DialogTitle>{dialogTitle}</DialogTitle>
           <DialogDescription>Llena el formulario para guardar los datos de la receta.</DialogDescription>

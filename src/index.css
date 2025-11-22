@@ -6,6 +6,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --color-pale-pink: var(--pale-pink);
+  --color-pale-green: var(--pale-green);
+  --color-peach: var(--peach);
   --color-green: var(--green);
   --color-orange: var(--orange);
   --color-dark-orange: var(--dark-orange);
@@ -58,6 +61,9 @@
 
 :root {
 
+  --pale-pink: oklch(0.95 0.02 330); 
+  --pale-green: oklch(0.96 0.03 110);
+  --peach: oklch(0.93 0.07 75);
   --green: oklch(0.759 0.109 113.3);
   --orange: oklch(0.70 0.09 31);
   --dark-orange: oklch(0.45 0.12 27);
@@ -148,17 +154,20 @@
   * {
     @apply border-border outline-ring/50;
   }
+
+  html,
+  body,
+  #root {
+    height: 100%;          
+  }
+  
   body {
+
     @apply bg-background text-foreground;
     font-family: var(--font-sans);
+    margin: 0;
+    overflow: hidden;
+   
   }
 }
 
-[data-invalid="true"] input,
-[data-invalid="true"] .input {
-  border-color: var(--destructive) !important;
-  --tw-ring-color: var(--destructive) !important;
-  --tw-ring-offset-shadow: 0 0 #0000 !important;
-  --tw-ring-shadow: 0 0 0 calc(1px + var(--tw-ring-offset-width, 0px)) var(--tw-ring-color) !important;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}

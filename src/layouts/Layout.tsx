@@ -13,23 +13,37 @@ interface LayoutProps {
 const Layout = ({children, bgColor = "bg-stone-100"}: LayoutProps) => {
   const location = useLocation();
 
-  const pagesWithBottomNav = ["/tables", "/menu-cart", "/orders"];
+  const pagesWithBottomNav = ["/tables", "/menu-cart", "/waiter-orders"];
 
   const showBottomNav = pagesWithBottomNav.includes(location.pathname);
 
   return (
-    
-    
+
+
     <SidebarProvider>
-      <SideNav autoCollapse={showBottomNav}/>
-      <main className={`container mx-auto flex-1 ${bgColor} pt-1`}> 
-        <SidebarTrigger />
-        {children}
-      </main>
-      {showBottomNav && <BottomNav />}
+   
+      <div className="flex h-screen w-screen">
+ 
+        <SideNav />
+
+
+        <div className={`flex flex-1 flex-col w-full ${bgColor}`}>
+ 
+          <main className="flex-1 overflow-y-auto overscroll-y-none">
+            {/* Wrapper con padding y ancho máximo centrado */}
+            <div className="w-full  sm:px-6 lg:px-8 pt-4 pb-6">
+              <SidebarTrigger />
+              {children}
+            </div>
+          </main>
+
+          {showBottomNav && <BottomNav />}
+        </div>
+      </div>
+
       <Toaster position="top-right" richColors />
     </SidebarProvider>
-    
+
    
    
   )

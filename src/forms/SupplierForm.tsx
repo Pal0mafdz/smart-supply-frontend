@@ -98,10 +98,13 @@ const SupplierForm = ({ supplierData, onSave, isLoading }: Props) => {
             name="supplierName"
             control={form.control}
             render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
+              <Field >
                 <FieldLabel>Nombre del proveedor</FieldLabel>
-                <Input {...field} placeholder="Ej. Distribuidora MX" autoComplete="off" />
-                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                <Input {...field} className= "border-stone-400" placeholder="Ej. Distribuidora MX" autoComplete="off" aria-invalid={fieldState.invalid} />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]}/>
+                )}
+               
               </Field>
             )}
           />

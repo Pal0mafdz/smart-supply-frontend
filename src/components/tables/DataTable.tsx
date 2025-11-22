@@ -21,6 +21,9 @@ import {
 import { Button } from "../ui/button"
 import React from "react"
 import { Input } from "../ui/input"
+import { Download } from "lucide-react"
+import { useExportProductsToExcel } from "@/api/MyProductApi"
+import ProductEntry from "../ProductEntry"
 
 
 interface DataTableProps<TData, TValue> {
@@ -50,22 +53,36 @@ export function DataTable<TData, TValue>({
    
   })
 
+  const { exportProducts, isLoading:isExporting } = useExportProductsToExcel();
+
+
+
   return (
     <div>
-      <div className="flex items-center py-4 ">
-      <Input 
-          placeholder="Filtra por categoria"
+      <div className="flex items-center justify-between py-4">
+        <Input
+          placeholder="Filtra por categoría"
           value={(table.getColumn("Categoria")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("Categoria")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm bg-white"
+          className="max-w-sm bg-white border-stone-400"
         />
+        <div className="flex items-center gap-3">
+          <ProductEntry />
+          <Button onClick={() => exportProducts()} disabled={isExporting}>
+            <Download className="mr-2 h-4 w-4" />
+            {isExporting ? "Generando..." : "Exportar a Excel"}
+          </Button>
+        </div>
 
-      </div>
-    <div className="overflow-hidden rounded-md border">
+
+
+</div>
+     
+    <div className="overflow-hidden rounded-md border border-stone-400">
       <Table className="bg-white">
-        <TableHeader >
+        <TableHeader className="bg-slate-500">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id} >
               {headerGroup.headers.map((header) => {
@@ -100,7 +117,7 @@ export function DataTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                No hay productos.
               </TableCell>
             </TableRow>
           )}
@@ -109,20 +126,22 @@ export function DataTable<TData, TValue>({
     </div>
     <div className="flex items-center justify-end space-x-2 py-4">
         <Button
+          className="bg-white"
           variant="outline"
           size="sm"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          Previous
+          Anterior
         </Button>
         <Button
+          className="bg-white"
           variant="outline"
           size="sm"
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          Next
+          Siguiente
         </Button>
       </div>
     

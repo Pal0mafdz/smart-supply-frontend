@@ -12,6 +12,16 @@ import RecipesPage from "./pages/RecipesPage";
 import TablesPage from "./pages/TablesPage";
 import CartPage from "./pages/CartPage";
 import SuppliersPage from "./pages/SuppliersPage";
+import WaiterOrdersPage from "./pages/WaiterOrdersPage";
+import ChefOrdersPage from "./pages/ChefOrdersPage";
+import WaiterHomePage from "./pages/HOMEPAGES/WaiterHomePage";
+import ChefHomePage from "./pages/HOMEPAGES/ChefHomePage";
+import AdminHomePage from "./pages/HOMEPAGES/AdminHomePage";
+import CaptainHomePage from "./pages/HOMEPAGES/CaptainHomePage";
+import UserProfile from "./pages/UserProfile";
+import SalesPage from "./pages/SalesPage";
+import CashSessionPage from "./pages/CashSessionPage";
+import ShrinkagePage from "./pages/ShrinkagePage";
 
 
 
@@ -31,17 +41,35 @@ const AppRoutes = () => {
           <Route path="/home-page" element={<Layout><HomePage/></Layout>}/>
         </Route>
 
+        <Route element={<RoleProtectedRoute allowedRoles={["admin", "almacenista", "contador", "gerente", "jefe de cocina", "mesero", "capitan"]}/>}>
+          <Route path="/user-profile" element={<Layout><UserProfile/></Layout>}/>
+        </Route>
+
         <Route element={<RoleProtectedRoute allowedRoles={["unauthorized", "admin", "almacenista", "contador", "gerente", "jefe de cocina", "mesero"]}/>}>
           <Route path="/user-unauthorized" element={<Layout><WaitForAuthorization/></Layout>}/>
         </Route> 
 
         <Route element={<RoleProtectedRoute allowedRoles={["admin", "almacenista", "contador"]}/>}>
           <Route path="/inventory" element={<Layout><InventoryPage/></Layout>}/>
-          
+        </Route> 
+
+        <Route element={<RoleProtectedRoute allowedRoles={["admin", "almacenista", "contador", "capitan"]}/>}>
+          <Route path="/cash" element={<Layout><CashSessionPage/></Layout>}/>
         </Route> 
 
         <Route element={<RoleProtectedRoute allowedRoles={["admin", "almacenista", "contador"]}/>}>
+          <Route path="/shrinkage" element={<Layout><ShrinkagePage/></Layout>}/>
+        </Route> 
+        
+
+
+
+        <Route element={<RoleProtectedRoute allowedRoles={["admin", "almacenista", "contador"]}/>}>
           <Route path="/movements-inventory" element={<Layout><MovementsPage/></Layout>}/>
+        </Route> 
+
+        <Route element={<RoleProtectedRoute allowedRoles={["admin", "almacenista", "contador"]}/>}>
+          <Route path="/sales" element={<Layout><SalesPage/></Layout>}/>
         </Route> 
 
         <Route element={<RoleProtectedRoute allowedRoles={["admin", "almacenista", "contador"]}/>}>
@@ -52,7 +80,7 @@ const AppRoutes = () => {
           <Route path="/recipes" element={<Layout><RecipesPage/></Layout>}/>
         </Route>
 
-        <Route element={<RoleProtectedRoute allowedRoles={["admin", "mesero", 'gerente']}/>}>
+        <Route element={<RoleProtectedRoute allowedRoles={["admin", "mesero", 'gerente', 'capitan']}/>}>
           <Route path="/tables" element={<Layout><TablesPage/></Layout>}/>
         </Route>
         
@@ -60,14 +88,32 @@ const AppRoutes = () => {
           <Route path="/menu-cart" element={<Layout><CartPage/></Layout>}/>
         </Route>
         
+        <Route element={<RoleProtectedRoute allowedRoles={["admin", "jefe de cocina", 'gerente', "capitan"]}/>}>
+          <Route path="/chef-orders" element={<Layout><ChefOrdersPage/></Layout>}/>
+        </Route>
+
+        <Route element={<RoleProtectedRoute allowedRoles={["admin", "mesero", 'gerente', 'capitan']}/>}>
+          <Route path="/waiter-orders" element={<Layout><WaiterOrdersPage/></Layout>}/>
+        </Route>
+
+        <Route element={<RoleProtectedRoute allowedRoles={["mesero"]}/>}>
+          <Route path="/waiter-homepage" element={<Layout><WaiterHomePage/></Layout>}/>
+        </Route>
+
+        <Route element={<RoleProtectedRoute allowedRoles={["jefe de cocina"]}/>}>
+          <Route path="/chef-homepage" element={<Layout><ChefHomePage/></Layout>}/>
+        </Route>
+
+        <Route element={<RoleProtectedRoute allowedRoles={["admin", "contador", "gerente"]}/>}>
+          <Route path="/admin-homepage" element={<Layout><AdminHomePage/></Layout>}/>
+        </Route>
         
+        <Route element={<RoleProtectedRoute allowedRoles={["admin", "capitan", "gerente"]}/>}>
+          <Route path="/captain-homepage" element={<Layout><CaptainHomePage/></Layout>}/>
+        </Route>
 
 
 
-        <Route path="/ordenes"/>
-
-        <Route path="/mesas"/>
-        <Route path="/storage" element={<span>Storage</span>}/>
         <Route path="*"element={<Navigate to ="/"/>}/>
     </Routes>
   )

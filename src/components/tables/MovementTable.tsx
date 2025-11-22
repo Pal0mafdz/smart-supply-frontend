@@ -21,6 +21,8 @@ import {
 import { Button } from "../ui/button"
 import React from "react"
 import { Input } from "../ui/input"
+import { Download } from "lucide-react"
+import { useExportMovementsToExcel } from "@/api/MyMovementsApi"
 
 
 interface MovementTableProps<TData, TValue> {
@@ -50,22 +52,29 @@ export function MovementTable<TData, TValue>({
    
   })
 
+  const { exportMovements, isLoading:isExporting } = useExportMovementsToExcel();
+
   return (
     <div>
-      <div className="flex items-center py-4">
+      <div className="flex items-center justify-between py-4">
       <Input
           placeholder="Filtra por tipo de movimiento"
           value={(table.getColumn("Tipo de Movimiento")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("Tipo de Movimiento")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm bg-white"
+          className="max-w-sm bg-white border-stone-400"
         />
 
+    <Button  onClick={() => exportMovements()} disabled={isExporting}>
+      <Download className="mr-2 h-4 w-4" />
+      {isExporting ? "Generando..." : "Exportar a Excel"}
+    </Button>
+
       </div>
-    <div className="overflow-hidden rounded-md border">
+    <div className="overflow-hidden rounded-md border border-stone-400">
       <Table className="bg-white">
-        <TableHeader>
+        <TableHeader className="bg-slate-500">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {

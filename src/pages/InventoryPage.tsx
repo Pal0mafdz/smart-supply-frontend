@@ -1,4 +1,4 @@
-import { useGetProducts } from "@/api/MyProductApi"
+import { useExportProductsToExcel, useGetProducts } from "@/api/MyProductApi"
 import DialogEntry from "@/components/DialogEntry"
 import InventoryNav from "@/components/InventoryNav"
 import ProductEntry from "@/components/ProductEntry"
@@ -7,7 +7,7 @@ import { DataTable } from "@/components/tables/DataTable"
 import { Button } from "@/components/ui/button"
 import type { Product } from "@/types"
 import type { ColumnDef } from "@tanstack/react-table"
-import { Pencil, Trash } from "lucide-react"
+import { Pencil} from "lucide-react"
 import { useState } from "react"
 
 
@@ -16,6 +16,7 @@ const InventoryPage = () => {
     const {products, isLoading} = useGetProducts();
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [open, setOpen] = useState(false);
+    // const { exportProducts, isLoading:isExporting } = useExportProductsToExcel();
 
     const handleEdit = (product: Product)=> {
       setSelectedProduct(product);
@@ -48,12 +49,43 @@ const InventoryPage = () => {
           header: "Cantidad",
       },
       {
+        accessorKey:"minStock",
+        header: "Minimo",
+    },
+    {
+      accessorKey:"maxStock",
+        header: "Maximo",
+
+    },
+      {
           accessorKey:"unitprice",
           header: "Precio/unidad",
+          cell: ({ row }) => {
+            const value = row.getValue("unitprice") as number;
+            return (
+              <span>
+                ${value.toLocaleString("es-MX", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </span>
+            );
+          },
       },
       {
           accessorKey:"total",
           header: "Total",
+          cell: ({ row }) => {
+            const value = row.getValue("total") as number;
+            return (
+              <span>
+                ${value.toLocaleString("es-MX", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </span>
+            );
+          },
       },
       {
         id: "actions",
@@ -61,22 +93,17 @@ const InventoryPage = () => {
         cell: ({row})=> {
           const product = row.original;
   
-          
-          const handleDelete = () => {
-  
-          };
+     
   
           return(
+           
             <div className="flex items-center gap-2">
               <Button variant="ghost" size="icon" onClick={()=> handleEdit(product)} title="Editar">
                 <Pencil className="h-4 w-4 "/>
               </Button>
-  
-              <Button variant="ghost" size="icon" onClick={handleDelete} title="Eliminar">
-                <Trash className="h-4 w-4 text-red-400"/>
-  
-              </Button>
+
             </div>
+           
           )
         }
   
@@ -92,9 +119,6 @@ const InventoryPage = () => {
     <div className="w-full p-7 space-y-6">
         
             <InventoryNav/>
-            
-            <ProductEntry/>
-        
         
         <div>
             <DataTable columns={columns} data={products ??[]}/>

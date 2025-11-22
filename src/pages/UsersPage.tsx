@@ -42,6 +42,7 @@ const UsersPage = () => {
             </SelectTrigger>
             <SelectContent>
               
+            <SelectItem value="capitan">Capitan</SelectItem>
               <SelectItem value="unauthorized">Unauthorized</SelectItem>
               <SelectItem value="jefe de cocina">Jefe de cocina</SelectItem>
               <SelectItem value="mesero">Mesero</SelectItem>

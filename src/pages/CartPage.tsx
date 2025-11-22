@@ -13,10 +13,10 @@ import AlertNotFound from "@/components/cart-components/AlertNotFound";
 
 const CartPage = () => {
   const { recipes, isLoading } = useGetRecipes();
-  const [selectedType, setSelectedType] = useState<Recipe["typeOR"] | null>(null);
+  const [selectedType, setSelectedType] = useState<Recipe["typeOR"]>("Desayunos");
   const [searchParams] = useSearchParams();
-  const {tableId} = useParams();
-  const [setShowAlert, showAlert] = useState(false);
+  // const {tableId} = useParams();
+  // const [setShowAlert, showAlert] = useState(false);
 
 
   const tableNumber = searchParams.get("tableNumber") ? Number(searchParams.get("tableNumber")) : undefined;

@@ -40,7 +40,22 @@ const RecipesPage = () => {
 
       <div className='flex flex-col sm:flex-row justify-between items-center gap-4'>
 
-        <div className='flex items-center gap-4 w-full sm-w-auto'>
+      <div className="flex items-center gap-4 w-full sm:w-auto">
+    <h1 className="text-3xl font-bold">Recetario</h1>
+    <SearchBar onSearch={setSearchTerm} />
+  </div>
+
+
+  <Button
+    className="bg-stone-900 text-stone-300 rounded-2xl"
+    onClick={() => setOpenDialog(true)}
+  >
+    + Agregar receta
+  </Button>
+
+
+
+        {/* <div className='flex items-center gap-4 w-full sm-w-auto'>
 
         <h1 className='text-3xl font-bold'>Recetario</h1>
 
@@ -52,7 +67,7 @@ const RecipesPage = () => {
             + Agregar receta
           </Button> 
 
-        </div>
+        </div> */}
 
       
 
