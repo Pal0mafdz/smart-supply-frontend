@@ -1,4 +1,3 @@
-import { Separator } from "./ui/separator"
 import { Button } from "./ui/button"
 import {
   Sidebar,
@@ -100,32 +99,37 @@ const SideNav = () => {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader
-        className="px-4 py-3 bg-black text-stone-300 cursor-pointer"
+        className="px-4 py-4 bg-gradient-to-br from-black via-stone-900 to-black text-stone-100 cursor-pointer hover:from-stone-900 hover:via-black hover:to-stone-900 transition-all duration-300 border-b border-stone-800"
         onClick={handleSmartSupplyClick}
       >
-        <h2>{collapsed ? "SS" : "SmartSupply"}</h2>
+        <div className="flex items-center gap-3 group-data-[collapsible=icon]:justify-center">
+          <div className="w-12 h-12 bg-gradient-to-br from-stone-300 to-stone-500 rounded-xl flex items-center justify-center shadow-lg shrink-0">
+            <span className="text-black font-bold text-base">{collapsed ? "SS" : "S"}</span>
+          </div>
+          {!collapsed && (
+            <h2 className="font-bold text-lg tracking-tight">SmartSupply</h2>
+          )}
+        </div>
       </SidebarHeader>
-      <Separator className="bg-stone-300" />
-      <SidebarContent className="bg-black text-cream">
+      <SidebarContent className="bg-gradient-to-b from-black via-stone-950 to-black text-stone-100">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
 
           
               <Collapsible defaultOpen className="group/collapsible mt-2">
-                <SidebarMenuItem>
+                <SidebarMenuItem className="group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center">
                   <CollapsibleTrigger asChild>
                    
-                     <SidebarMenuButton className="hover:bg-stone-300">
-                    <div className="flex items-center space-x-2">
-                        <Store className="h-4 w-4" />
-                       
-                        <span>POS</span>
-                      </div>
+                     <SidebarMenuButton className="hover:!bg-stone-800/50 hover:!text-stone-100 hover:shadow-md transition-all duration-200 rounded-xl data-[state=open]:bg-transparent !p-1">
+                    <div className="w-12 h-12 bg-gradient-to-br from-stone-700 to-stone-900 rounded-xl flex items-center justify-center shadow-md shrink-0">
+                      <Store className="h-5 w-5 text-stone-200" />
+                    </div>
+                    <span className="font-medium group-data-[collapsible=icon]:hidden ml-2">POS</span>
 
-                      <ChevronDown
-                          className="ml-auto h-4 w-4 transition-transform duration-300 group-data-[state=open]/collapsible:rotate-180"
-                       />
+                    <ChevronDown
+                      className="ml-auto h-4 w-4 transition-transform duration-300 group-data-[state=open]/collapsible:rotate-180 group-data-[collapsible=icon]:hidden mr-2"
+                    />
                       
                     </SidebarMenuButton>
                     
@@ -133,16 +137,16 @@ const SideNav = () => {
 
                   
                   <CollapsibleContent>
-                    <SidebarMenuSub className="border-stone-600">
+                    <SidebarMenuSub className="border-stone-700 ml-2">
                     {canAccess(["admin", "contador", "gerente"]) && (
                       <SidebarMenuSubItem>
                         <SidebarMenuButton
                           asChild
-                          className={`hover:bg-stone-300 ${
-                            location.pathname === "/sales" ? "bg-stone-300 text-black" : ""
+                          className={`hover:!bg-stone-800/50 hover:!text-stone-100 rounded-lg transition-all duration-200 ${
+                            location.pathname === "/sales" ? "bg-gradient-to-r from-stone-700 to-stone-800 text-stone-100 shadow-md" : ""
                           }`}
                         >
-                          <Link to="/sales" className="flex items-center space-x-2">
+                          <Link to="/sales" className="flex items-center space-x-3">
                             <BanknoteArrowUp className="h-4 w-4" />
                             <span>Ventas</span>
                           </Link>
@@ -153,11 +157,11 @@ const SideNav = () => {
                       <SidebarMenuSubItem>
                         <SidebarMenuButton
                           asChild
-                          className={`hover:bg-stone-300 ${
-                            location.pathname === "/tables" ? "bg-stone-300 text-black" : ""
+                          className={`hover:!bg-stone-800/50 hover:!text-stone-100 rounded-lg transition-all duration-200 ${
+                            location.pathname === "/tables" ? "bg-gradient-to-r from-stone-700 to-stone-800 text-stone-100 shadow-md" : ""
                           }`}
                         >
-                          <Link to="/tables" className="flex items-center space-x-2">
+                          <Link to="/tables" className="flex items-center space-x-3">
                             <Utensils className="h-4 w-4" />
                             <span>Mesas disponibles</span>
                           </Link>
@@ -167,11 +171,11 @@ const SideNav = () => {
                       <SidebarMenuSubItem>
                         <SidebarMenuButton
                           asChild
-                          className={`hover:bg-stone-300 ${
-                            location.pathname === "/chef-orders" ? "bg-stone-300 text-black" : ""
+                          className={`hover:!bg-stone-800/50 hover:!text-stone-100 rounded-lg transition-all duration-200 ${
+                            location.pathname === "/chef-orders" ? "bg-gradient-to-r from-stone-700 to-stone-800 text-stone-100 shadow-md" : ""
                           }`}
                         >
-                          <Link to="/chef-orders" className="flex items-center space-x-2">
+                          <Link to="/chef-orders" className="flex items-center space-x-3">
                             <ChefHat className="h-4 w-4" />
                             <span>Órdenes</span>
                           </Link>
@@ -182,11 +186,11 @@ const SideNav = () => {
                       
                         <SidebarMenuButton
                           asChild
-                          className={`hover:bg-stone-300 ${
-                            location.pathname === "/cash" ? "bg-stone-300 text-black" : ""
+                          className={`hover:!bg-stone-800/50 hover:!text-stone-100 rounded-lg transition-all duration-200 ${
+                            location.pathname === "/cash" ? "bg-gradient-to-r from-stone-700 to-stone-800 text-stone-100 shadow-md" : ""
                           }`}
                         >
-                          <Link to="/cash" className="flex items-center space-x-2">
+                          <Link to="/cash" className="flex items-center space-x-3">
                             <FileText className="h-4 w-4"/>
                             <span>Caja</span>
                           </Link>
@@ -203,32 +207,31 @@ const SideNav = () => {
         
               {canAccess(["admin", "almacenista", "contador"]) && (
               <Collapsible defaultOpen className="group/collapsible mt-2">
-                <SidebarMenuItem>
+                <SidebarMenuItem className="group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center">
                   <CollapsibleTrigger asChild>
-                    <SidebarMenuButton className="hover:bg-stone-300">
-                    <div className="flex items-center space-x-2">
-                        <Package className="h-4 w-4" />
-                       
-                        <span>Almacen</span>
-                      </div>
+                    <SidebarMenuButton className="hover:!bg-stone-800/50 hover:!text-stone-100 hover:shadow-md transition-all duration-200 rounded-xl data-[state=open]:bg-transparent !p-1">
+                    <div className="w-12 h-12 bg-gradient-to-br from-stone-700 to-stone-900 rounded-xl flex items-center justify-center shadow-md shrink-0">
+                      <Package className="h-5 w-5 text-stone-200" />
+                    </div>
+                    <span className="font-medium group-data-[collapsible=icon]:hidden ml-2">Almacén</span>
 
-                      <ChevronDown
-                          className="ml-auto h-4 w-4 transition-transform duration-300 group-data-[state=open]/collapsible:rotate-180"
-                       />
+                    <ChevronDown
+                      className="ml-auto h-4 w-4 transition-transform duration-300 group-data-[state=open]/collapsible:rotate-180 group-data-[collapsible=icon]:hidden mr-2"
+                    />
                       
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
 
                   <CollapsibleContent>
-                    <SidebarMenuSub className="border-stone-600">
+                    <SidebarMenuSub className="border-stone-700 ml-2">
                       <SidebarMenuSubItem>
                         <SidebarMenuButton
                           asChild
-                          className={`hover:bg-stone-300 ${
-                            location.pathname === "/inventory" ? "bg-stone-300 text-black" : ""
+                          className={`hover:!bg-stone-800/50 hover:!text-stone-100 rounded-lg transition-all duration-200 ${
+                            location.pathname === "/inventory" ? "bg-gradient-to-r from-stone-700 to-stone-800 text-stone-100 shadow-md" : ""
                           }`}
                         >
-                          <Link to="/inventory" className="flex items-center space-x-2">
+                          <Link to="/inventory" className="flex items-center space-x-3">
                             <Apple className="h-4 w-4" />
                             <span>Inventario</span>
                           </Link>
@@ -238,8 +241,13 @@ const SideNav = () => {
                       
                       {canAccess(["admin", "contador"]) && (
                       <SidebarMenuSubItem>
-                        <SidebarMenuButton asChild>
-                          <Link to="/recipes" className="flex items-center space-x-2">
+                        <SidebarMenuButton 
+                          asChild
+                          className={`hover:!bg-stone-800/50 hover:!text-stone-100 rounded-lg transition-all duration-200 ${
+                            location.pathname === "/recipes" ? "bg-gradient-to-r from-stone-700 to-stone-800 text-stone-100 shadow-md" : ""
+                          }`}
+                        >
+                          <Link to="/recipes" className="flex items-center space-x-3">
                             <CookingPot className="h-4 w-4" />
                             <span>Recetario</span>
                           </Link>
@@ -250,11 +258,11 @@ const SideNav = () => {
                       <SidebarMenuSubItem>
                         <SidebarMenuButton
                           asChild
-                          className={`hover:bg-stone-300 ${
-                            location.pathname === "/shrinkage" ? "bg-stone-300 text-black" : ""
+                          className={`hover:!bg-stone-800/50 hover:!text-stone-100 rounded-lg transition-all duration-200 ${
+                            location.pathname === "/shrinkage" ? "bg-gradient-to-r from-stone-700 to-stone-800 text-stone-100 shadow-md" : ""
                           }`}
                         >
-                          <Link to="/shrinkage" className="flex items-center space-x-2">
+                          <Link to="/shrinkage" className="flex items-center space-x-3">
                             <Trash2 className="h-4 w-4" />
                             <span>Mermas</span>
                           </Link>
@@ -267,11 +275,18 @@ const SideNav = () => {
               )}
 
               {canAccess(["admin"]) && (
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/get-users" className="flex items-center space-x-2">
-                    <Users />
-                    <span>Usuarios</span>
+              <SidebarMenuItem className="mt-2 group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center">
+                <SidebarMenuButton 
+                  asChild
+                  className={`hover:!bg-stone-800/50 hover:!text-stone-100 hover:shadow-md transition-all duration-200 rounded-xl !p-1 ${
+                    location.pathname === "/get-users" ? "bg-gradient-to-r from-stone-700 to-stone-800 text-stone-100 shadow-md" : ""
+                  }`}
+                >
+                  <Link to="/get-users" className="flex items-center gap-3 group-data-[collapsible=icon]:justify-center">
+                    <div className="w-12 h-12 bg-gradient-to-br from-stone-700 to-stone-900 rounded-xl flex items-center justify-center shadow-md shrink-0">
+                      <Users className="h-5 w-5 text-stone-200" />
+                    </div>
+                    <span className="font-medium group-data-[collapsible=icon]:hidden ml-2">Usuarios</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -284,13 +299,14 @@ const SideNav = () => {
         </SidebarGroup>
       </SidebarContent>
 
-      <Separator className="bg-stone-300" />
-      <SidebarFooter className="px-4 py-3 bg-black">
+      <SidebarFooter className="px-4 py-4 bg-gradient-to-t from-black via-stone-900 to-black border-t border-stone-800">
         {isAuthenticated ? (
-          <UsernameMenu />
+          <div className="hover:bg-stone-800/30 rounded-xl transition-all duration-200">
+            <UsernameMenu />
+          </div>
         ) : (
           <Button
-            className="w-full bg-stone-300 text-black hover:bg-stone-700 hover:text-stone-300"
+            className="w-full bg-gradient-to-r from-stone-300 to-stone-400 text-black hover:from-stone-400 hover:to-stone-500 font-semibold shadow-lg hover:shadow-xl transition-all duration-200 rounded-xl"
             onClick={async () =>
               await loginWithRedirect({
                 appState: { returnTo: "/auth-callback" },
