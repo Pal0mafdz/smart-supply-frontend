@@ -10,7 +10,7 @@ import { AvatarFallback } from "./ui/avatar"
 import { useGetCurrentUser } from "@/api/MyUserApi"
 
 const UsernameMenu = () => {
-    const {user, logout} = useAuth0();
+    const { logout } = useAuth0();
 
     const { state } = useSidebar();
     const collapsed = state === "collapsed";
@@ -36,57 +36,72 @@ const UsernameMenu = () => {
         <DropdownMenuTrigger asChild>
         <div
           className={`
-            flex items-center w-full 
-            ${collapsed ? "justify-center px-0" : "gap-2 px-2"}
+            flex items-center w-full cursor-pointer
+            ${collapsed ? "justify-center px-0" : "gap-3 px-3 py-2"}
+            hover:bg-stone-800/30 rounded-xl transition-all duration-200
           `}
         >
-          <Avatar className="h-8 w-8 rounded-md">
+          <Avatar className="h-9 w-9 rounded-lg shadow-md border-2 border-stone-700">
             {avatarSrc && <AvatarImage src={avatarSrc} />}
             
-            <AvatarFallback className="rounded-md">
+            <AvatarFallback className="rounded-lg bg-gradient-to-br from-stone-600 to-stone-800 text-stone-100 font-semibold">
               {fallbackLetter}
             </AvatarFallback>
           </Avatar>
 
           {!collapsed && (
-  <span className="truncate text-stone-300">
-    {currentUser?.name
-      ? `${currentUser.name} ${currentUser.lastname ?? ""}`.trim()
-      : currentUser?.email}
-  </span>
-)}
-          {/* {!collapsed && (
-            <span className="truncate text-stone-300">{user?.email}</span>
-          )} */}
+            <div className="flex flex-col flex-1 min-w-0">
+              <span className="truncate text-stone-100 font-medium text-sm">
+                {currentUser?.name
+                  ? `${currentUser.name} ${currentUser.lastname ?? ""}`.trim()
+                  : currentUser?.email}
+              </span>
+              <span className="text-xs text-stone-400 truncate">
+                {currentUser?.email}
+              </span>
+            </div>
+          )}
          
         </div>
             
         </DropdownMenuTrigger>
-        <DropdownMenuContent side="right" className="bg-stone-900 text-stone-300 ">
-        {/* <div className="flex items-center gap-3 px-2 py-3 border-b border-stone-700">
-    <Avatar className="h-10 w-10 rounded-md">
-      {avatarSrc && <AvatarImage src={avatarSrc} />}
-      <AvatarFallback className="rounded-md">
-        {fallbackLetter}
-      </AvatarFallback>
-    </Avatar>
+        <DropdownMenuContent 
+          side="right" 
+          className="bg-gradient-to-b from-stone-900 to-black text-stone-100 border-stone-700 shadow-xl rounded-xl min-w-[220px]"
+        >
+          <div className="px-3 py-3 border-b border-stone-700/50">
+            <div className="flex items-center gap-3">
+              <Avatar className="h-10 w-10 rounded-lg shadow-md border-2 border-stone-600">
+                {avatarSrc && <AvatarImage src={avatarSrc} />}
+                <AvatarFallback className="rounded-lg bg-gradient-to-br from-stone-600 to-stone-800 text-stone-100 font-semibold">
+                  {fallbackLetter}
+                </AvatarFallback>
+              </Avatar>
 
-    <div className="flex flex-col">
-      <span className="font-semibold">
-        {user?.name} {user?.lastname}
-      </span>
-      <span className="text-xs text-stone-400 truncate max-w-[120px]">
-        {user?.email}
-      </span>
-    </div>
-  </div> */}
+              <div className="flex flex-col flex-1 min-w-0">
+                <span className="font-semibold text-sm">
+                  {currentUser?.name
+                    ? `${currentUser.name} ${currentUser.lastname ?? ""}`.trim()
+                    : "Usuario"}
+                </span>
+                <span className="text-xs text-stone-400 truncate">
+                  {currentUser?.email}
+                </span>
+              </div>
+            </div>
+          </div>
             
-            <DropdownMenuItem>
-            <Link to= "/user-profile">Perfil de Usuario</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem >
-            <Button className="flex flex-1 bg-stone-600" onClick={()=> logout()}>Cerrar Sesion</Button>
-            </DropdownMenuItem>
+          <DropdownMenuItem className="hover:bg-stone-800/50 cursor-pointer rounded-lg mx-1 my-1">
+            <Link to="/user-profile" className="w-full">Perfil de Usuario</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem className="hover:bg-stone-800/50 cursor-pointer rounded-lg mx-1 my-1">
+            <Button 
+              className="flex flex-1 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-medium shadow-md transition-all duration-200" 
+              onClick={() => logout()}
+            >
+              Cerrar Sesión
+            </Button>
+          </DropdownMenuItem>
         </DropdownMenuContent>
 
     </DropdownMenu>
