@@ -20,6 +20,63 @@ type EditProductMovementArgs = {
   }
 }
 
+// === AI RECOMMENDATIONS ===
+
+export interface AISupplierRecommendation {
+  supplierName: string;
+  website?: string;
+  notes?: string;
+  relativePriceComment?: string;
+}
+
+export interface LowStockSupplierResponse {
+  count: number;
+  items: {
+    productId: string;
+    productName: string;
+    quantityInStock: number;
+    minStock: number;
+    currentSupplier: string | null;
+    recommendations: AISupplierRecommendation[];
+  }[];
+}
+
+export const useGetLowStockSupplierRecommendations = () => {
+  const { getAccessTokenSilently } = useAuth0();
+
+  const fetchAiRecommendations = async (): Promise<LowStockSupplierResponse> => {
+    const accessToken = await getAccessTokenSilently();
+
+    const res = await fetch(
+      `${API_BASE_URL}/api/my/product/ai/low-stock-suppliers`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error("No se pudieron obtener recomendaciones de proveedores IA");
+    }
+
+    return res.json();
+  };
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["aiRecommendationsLowStock"],
+    queryFn: fetchAiRecommendations,
+  });
+
+  return {
+    data,
+    isLoading,
+    error,
+  };
+};
+
+
 export const useGetShrinkages = () => {
   const {getAccessTokenSilently} = useAuth0();
   const getShrinkagesRequest = async(): Promise<Shrinkage[]> => {

@@ -17,13 +17,16 @@ import { Button } from '@/components/ui/button';
 import { useAddCategoryProd, useDeleteCategoryProd, useGetCategoriesProd } from '@/api/MyCategoryProdApi';
 import { CircleX, Plus } from 'lucide-react';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
+import { toast } from 'sonner';
+import { useGetSuppliers } from '@/api/MySupplierApi';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
     const formSchema = z.object({
         codeNum: z.string().min(1, "El código es requerido"),
     name: z.string().min(1, "El nombre es requerido"),
     category: z.string().min(1, "Selecciona una categoría"),
     unit: z.string().min(1, "La unidad es requerida"),
-
+    supplier: z.string().min(1, "Selecciona un proveedor"),
     quantityInStock: z
       .coerce
       .number()
@@ -56,14 +59,24 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
       })
       .min(0, { message: "No puede ser negativo" }),
   })
+  .refine(
+    (data) =>
+      typeof data.minStock === "number" &&
+      typeof data.maxStock === "number" &&
+      data.maxStock >= data.minStock,
+    {
+      path: ["maxStock"],
+      message: "El máximo debe ser mayor o igual al mínimo",
+    }
 
-  .refine((data) => data.maxStock >= data.minStock, {
-    path: ["maxStock"],
-    message: "El máximo debe ser mayor o igual al mínimo",
+  // .refine((data) => data.maxStock >= data.minStock, {
+  //   path: ["maxStock"],
+  //   message: "El máximo debe ser mayor o igual al mínimo",
 
 
 
-    });
+  //   }
+  );
     type ProductFormData = z.infer<typeof formSchema>
 
     type Props = {
@@ -81,6 +94,8 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
     const {categories, isLoading: isLoadingCategories} = useGetCategoriesProd();
     const {deleteCategoryProd } = useDeleteCategoryProd();
     const [searchValue, setSearchValue] = useState("");
+    const { suppliers, isLoading: isLoadingSuppliers } = useGetSuppliers();
+    const [supplierSearchValue, setSupplierSearchValue] = useState("");
 
     const handleAddCategory = async () =>{
         if(!newCategory.trim()) return;
@@ -109,7 +124,8 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
               }
             //form.reset();
         }catch(err){
-            console.error(err);
+            toast.error("Tienes Productos registrados con la categoria a eliminar", {position: "top-center"});
+
         }
         
 
@@ -168,6 +184,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
         formData.append("unitprice", formDataJson.unitprice.toString());
         formData.append("minStock", formDataJson.minStock.toString());
         formData.append("maxStock", formDataJson.maxStock.toString());
+        formData.append("supplier", formDataJson.supplier);
 
         onSave(formData);
     }
@@ -205,6 +222,86 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
                 </FormItem>
             )}
             />
+
+<FormField
+  control={control}
+  name="supplier"
+  render={({ field }) => (
+    <FormItem className="mt-4">
+      <FormLabel>Proveedor</FormLabel>
+      <FormControl>
+        <Select
+          onValueChange={field.onChange}
+          value={field.value}
+        >
+          <SelectTrigger className="bg-white border-stone-400">
+            <SelectValue placeholder="Selecciona un proveedor" />
+          </SelectTrigger>
+
+          <SelectContent>
+            {isLoadingSuppliers && (
+              <p className="px-2 text-sm text-gray-500">Cargando...</p>
+            )}
+
+            {suppliers?.map((sup) => (
+              <SelectItem key={sup._id} value={sup._id ?? ""}>
+                {sup.supplierName}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
+{/* 
+<FormField
+  control={control}
+  name="supplier"
+  render={({ field }) => (
+    <FormItem className="mt-4">
+      <FormLabel>Proveedor</FormLabel>
+
+      <FormControl>
+        <Command>
+          <CommandInput
+            placeholder="Busca o selecciona un proveedor"
+            value={supplierSearchValue}
+            onValueChange={setSupplierSearchValue}
+          />
+
+          <CommandList>
+            {isLoadingSuppliers && (
+              <p className="px-2 text-sm text-gray-500">Cargando...</p>
+            )}
+
+            <CommandGroup>
+              {suppliers?.map((sup) => (
+                <CommandItem
+                  key={sup._id}
+                  value={sup._id}
+                  onSelect={() => {
+                    field.onChange(sup._id);
+                    setSupplierSearchValue(sup.supplierName);
+                  }}
+                >
+                  {sup.supplierName}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+
+            <CommandEmpty>No hay proveedores</CommandEmpty>
+          </CommandList>
+        </Command>
+      </FormControl>
+
+      <FormMessage />
+    </FormItem>
+  )}
+/> */}
+
 
 
             <FormField control={control} name="category" render={({field})=>(

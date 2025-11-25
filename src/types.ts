@@ -1,4 +1,3 @@
-import { string } from "zod";
 
 export type User = {
     _id: string,
@@ -25,6 +24,7 @@ export type Product = {
     date: Date,
     minStock?: number,
     maxStock?: number,
+    supplier: Supplier,
 
 }
 
@@ -119,6 +119,7 @@ export type RecipeProduct = {
     website: string;
     leadTimeDays: number;  // tiempo de entrega
     minOrderValue: number; // mínimo por compra
+    // supplier: Supplier;
   }
 
   export type Sale = {
@@ -130,5 +131,7 @@ export type RecipeProduct = {
   }
 
   export type Payment = {
+    _id: string;
+
 
   }

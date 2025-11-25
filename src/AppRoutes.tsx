@@ -22,6 +22,7 @@ import UserProfile from "./pages/UserProfile";
 import SalesPage from "./pages/SalesPage";
 import CashSessionPage from "./pages/CashSessionPage";
 import ShrinkagePage from "./pages/ShrinkagePage";
+import LowStockSupplierAI from "./components/LowStockSupplierAI";
 
 
 
@@ -110,6 +111,10 @@ const AppRoutes = () => {
         
         <Route element={<RoleProtectedRoute allowedRoles={["admin", "capitan", "gerente"]}/>}>
           <Route path="/captain-homepage" element={<Layout><CaptainHomePage/></Layout>}/>
+        </Route>
+
+        <Route element={<RoleProtectedRoute allowedRoles={["admin", "capitan", "gerente"]}/>}>
+          <Route path="/ai" element={<Layout><LowStockSupplierAI/></Layout>}/>
         </Route>
 
 

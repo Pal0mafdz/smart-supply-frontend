@@ -1,7 +1,8 @@
-import { useExportProductsToExcel, useGetProducts } from "@/api/MyProductApi"
+import { useGetProducts } from "@/api/MyProductApi"
 import DialogEntry from "@/components/DialogEntry"
 import InventoryNav from "@/components/InventoryNav"
-import ProductEntry from "@/components/ProductEntry"
+import LowStockSupplierAI from "@/components/LowStockSupplierAI"
+
 import Spinner from "@/components/Spinner"
 import { DataTable } from "@/components/tables/DataTable"
 import { Button } from "@/components/ui/button"
@@ -38,7 +39,7 @@ const InventoryPage = () => {
       },
       {
           header:"Categoria",
-          accessorFn: (row) => row.category.name,
+          accessorFn: (row) => row.category?.name?? "Sin categoría",
       },
       {
           accessorKey:"unit",
@@ -119,6 +120,7 @@ const InventoryPage = () => {
     <div className="w-full p-7 space-y-6">
         
             <InventoryNav/>
+            <LowStockSupplierAI />
         
         <div>
             <DataTable columns={columns} data={products ??[]}/>
