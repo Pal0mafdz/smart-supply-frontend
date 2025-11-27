@@ -69,7 +69,12 @@ const SideNav = () => {
       case "unauthorized":
         navigate("/user-unauthorized")
         break
+      case "capitan":
+        navigate("/captain-homepage")
+        break
       case "admin":
+        navigate("/admin-homepage")
+        break
       case "contador":
       case "gerente":
         navigate("/admin-homepage")
@@ -117,6 +122,7 @@ const SideNav = () => {
             <SidebarMenu>
 
           
+            {canAccess(["admin", "jefe de cocina", "contador", "mesero", "almacenista", "gerente", "capitan"]) && (
               <Collapsible defaultOpen className="group/collapsible mt-2">
                 <SidebarMenuItem className="group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center">
                   <CollapsibleTrigger asChild>
@@ -154,6 +160,7 @@ const SideNav = () => {
                       </SidebarMenuSubItem>
                     )}
 
+{canAccess(["admin", "contador", "mesero", "gerente", "capitan"]) && (
                       <SidebarMenuSubItem>
                         <SidebarMenuButton
                           asChild
@@ -167,6 +174,10 @@ const SideNav = () => {
                           </Link>
                         </SidebarMenuButton>
                       </SidebarMenuSubItem>
+)}
+
+
+{canAccess(["admin","jefe de cocina",  "gerente"]) && (
 
                       <SidebarMenuSubItem>
                         <SidebarMenuButton
@@ -181,6 +192,7 @@ const SideNav = () => {
                           </Link>
                         </SidebarMenuButton>
                       </SidebarMenuSubItem>
+)}
 
                       <SidebarMenuSubItem>
                       
@@ -203,6 +215,7 @@ const SideNav = () => {
                   </CollapsibleContent>
                 </SidebarMenuItem>
               </Collapsible>
+          )}
 
         
               {canAccess(["admin", "almacenista", "contador"]) && (

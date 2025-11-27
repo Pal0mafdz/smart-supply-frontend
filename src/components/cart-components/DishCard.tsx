@@ -1,4 +1,4 @@
-import type { Recipe, Table } from '@/types';
+import type { Recipe } from '@/types';
 import { Card, CardContent, CardHeader } from '../ui/card';
 import { Button } from '../ui/button';
 import { useAddDish } from '@/api/MyOrderApi';
@@ -8,7 +8,7 @@ import { useAddDish } from '@/api/MyOrderApi';
 type Props = {
   recipe: Recipe;
   qty?: number;
-  // tableId: string;
+
   orderId: string;
   // onAdd?: () => void;
   // onSub?: () => void;
@@ -18,8 +18,8 @@ type Props = {
 
 // const DishCard = ({ recipe, qty = 0,  tableId, orderId }: Props) => {
 
-const DishCard = ({ recipe, qty = 1, orderId }: Props) => {
-  const {addDish, isLoading} = useAddDish();
+const DishCard = ({ recipe, orderId }: Props) => {
+  const {addDish} = useAddDish();
 
    
 

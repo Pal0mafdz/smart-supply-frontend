@@ -1,6 +1,6 @@
 import type { Table } from "@/types";
 import { Armchair, Users } from "lucide-react";
-import { Badge } from "./ui/badge";
+
 
 const STATUS_STYLES: Record<Table["state"], {card: string, chair: string, dot: string; text: string; }> = {
     disponible: {

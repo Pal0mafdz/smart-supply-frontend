@@ -17,18 +17,6 @@ type UpdateUserRoleRequest = {
     newRole: string;
 }
 
-type UpdateMyUserRequest = {
-    name?: string;
-    lastname?: string;
-    phone?: string;
-    bio?: string;
-    gender?: "femenino" | "masculino" | "no binario" | "otro" | "prefiero no decirlo" | "";
-    AvatarUrl?: File | null;   
-  };
-
-
-
-
 
 export const useCreateMyUser = ()=> {
     const {getAccessTokenSilently} = useAuth0();

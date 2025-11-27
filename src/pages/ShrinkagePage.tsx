@@ -1,6 +1,6 @@
 import { useGetShrinkages } from '@/api/MyProductApi'
 import Spinner from '@/components/Spinner'
-import { SupplierTable } from '@/components/tables/SupplierTable'
+import { ShrinkageTable } from '@/components/tables/ShrinkageTable'
 import type { Product, Shrinkage} from '@/types'
 import type { ColumnDef } from '@tanstack/react-table'
 
@@ -58,7 +58,7 @@ const ShrinkagePage = () => {
 
     
 
-    <SupplierTable columns={columns} data={shrinkages??[]}/>
+    <ShrinkageTable columns={columns} data={shrinkages??[]}/>
 
    
 

@@ -361,7 +361,7 @@ export const getMovements = () =>{
         }
         return response.json();
     }
-    const {data: movements, isLoading} = useQuery({queryKey: ["fetchMovements"], queryFn: getMovementsRequest});
+    const {data: movements, isLoading} = useQuery({queryKey: ["movements"], queryFn: getMovementsRequest});
 
     return {movements, isLoading};
    

@@ -1,4 +1,7 @@
-import { Link } from "react-router-dom";
+
+
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,53 +9,46 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "./ui/breadcrumb";
-// import React from "react";
-
-// const items = [
-//   {
-//     title: "Historial",
-//     url: "/movements-inventory",
-//   },
-//   // {
-//   //   title: "Entradas",
-//   //   url: "/entries-inventory",
-//   // },
-//   // {
-//   //   title: "Salidas",
-//   //   url: "/exits-inventory",
-//   // },
-// ];
 
 const InventoryNav = () => {
+  const location = useLocation();
+
+  const items = [
+    { title: "Inventario", url: "/inventory" },
+    { title: "Historial", url: "/movements-inventory" },
+    { title: "Proveedores", url: "/suppliers" },
+  ];
+
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        <BreadcrumbItem>
-          <BreadcrumbLink asChild>
-            <Link to="/inventory">Inventario</Link>
-          </BreadcrumbLink>
+        {items.map((item, index) => {
+          const isCurrent = location.pathname === item.url;
 
-        </BreadcrumbItem>
-        <BreadcrumbSeparator/>
-        <BreadcrumbItem>
-          <BreadcrumbLink asChild>
-            <Link to="/movements-inventory">Historial</Link>
-          </BreadcrumbLink>
-        </BreadcrumbItem>
+          return (
+            <React.Fragment key={item.url}>
+              <BreadcrumbItem>
+                {isCurrent ? (
+                  // Página actual: no es link, solo texto marcado
+                  <BreadcrumbLink
+                    aria-current="page"
+                    className="font-semibold text-foreground pointer-events-none"
+                  >
+                    {item.title}
+                  </BreadcrumbLink>
+                ) : (
+                  // Breadcrumb de niveles anteriores: sí son links
+                  <BreadcrumbLink asChild>
+                    <Link to={item.url}>{item.title}</Link>
+                  </BreadcrumbLink>
+                )}
+              </BreadcrumbItem>
 
-        <BreadcrumbSeparator/>
-        <BreadcrumbItem>
-          <BreadcrumbLink asChild>
-            <Link to="/suppliers">Proveedores</Link>
-          </BreadcrumbLink>
-        </BreadcrumbItem>
-
-
-
+              {index < items.length - 1 && <BreadcrumbSeparator />}
+            </React.Fragment>
+          );
+        })}
       </BreadcrumbList>
-    
-
-    
     </Breadcrumb>
   );
 };

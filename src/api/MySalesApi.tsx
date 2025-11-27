@@ -1,4 +1,4 @@
-import type { Sale } from "@/types";
+import type { Payment, Sale } from "@/types";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -34,6 +34,36 @@ export type RegisterPaymentRequest = {
   method: PaymentMethod;
   reference?: string;
 };
+
+
+export const useGetPayments = () => {
+  const {getAccessTokenSilently}= useAuth0();
+  const getPaymentsRequest = async(): Promise<Payment[]> => {
+      const accessToken = await getAccessTokenSilently();
+
+      const response = await fetch(`${API_BASE_URL}/api/my/sale/payments`, {
+          method: "GET",
+          headers:{
+              Authorization: `Bearer ${accessToken}`,
+              "Content-Type": "application/json",
+          },
+          
+
+      })
+      if(!response.ok){
+
+          throw new Error("Failed to fetch payments");
+      }
+      return response.json();
+
+  }
+
+  const {data: payments, isLoading} = useQuery({queryKey: ["payments"], queryFn: getPaymentsRequest});
+
+  return {payments, isLoading};
+
+ 
+}
 
 
 export const useRegisterPayment = () => {

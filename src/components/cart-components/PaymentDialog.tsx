@@ -61,16 +61,16 @@ const PaymentDialog = ({
     }
   }, [open, defaultMethod, total]);
 
-  const handleConfirm = async () => {
-    const numericAmount = parseFloat(amount || "0");
-    if (Number.isNaN(numericAmount) || numericAmount <= 0) return;
+  // const handleConfirm = async () => {
+  //   const numericAmount = parseFloat(amount || "0");
+  //   if (Number.isNaN(numericAmount) || numericAmount <= 0) return;
 
-    await onConfirm({
-      method,
-      amount: numericAmount,
-      reference: reference.trim() || undefined,
-    });
-  };
+  //   await onConfirm({
+  //     method,
+  //     amount: numericAmount,
+  //     reference: reference.trim() || undefined,
+  //   });
+  // };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

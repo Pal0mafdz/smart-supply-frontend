@@ -17,6 +17,7 @@ const InventoryPage = () => {
     const {products, isLoading} = useGetProducts();
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [open, setOpen] = useState(false);
+    const [showAI, setShowAI] = useState(false);
     // const { exportProducts, isLoading:isExporting } = useExportProductsToExcel();
 
     const handleEdit = (product: Product)=> {
@@ -120,15 +121,21 @@ const InventoryPage = () => {
     <div className="w-full p-7 space-y-6">
         
             <InventoryNav/>
-            <LowStockSupplierAI />
+          
         
         <div>
-            <DataTable columns={columns} data={products ??[]}/>
+            <DataTable columns={columns} data={products ??[]} onClickAi={() => setShowAI(true)}/>
 
             {selectedProduct && (
               <DialogEntry product={selectedProduct}open={open} onClose={()=> setOpen(false)}/>
             )}
         </div>
+
+        {showAI && (
+          <div className="mt-6">
+            <LowStockSupplierAI/>
+            </div>
+        )}
 
     </div>
 

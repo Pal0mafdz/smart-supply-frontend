@@ -29,11 +29,13 @@ import ProductEntry from "../ProductEntry"
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  onClickAi?: () => void
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  onClickAi,
 }: DataTableProps<TData, TValue>) {
   // const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -74,6 +76,10 @@ export function DataTable<TData, TValue>({
             <Download className="mr-2 h-4 w-4" />
             {isExporting ? "Generando..." : "Exportar a Excel"}
           </Button>
+
+          {onClickAi && (
+            <Button variant="outline" onClick={onClickAi}>Generar Recomendacion</Button>
+          )}
         </div>
 
 
