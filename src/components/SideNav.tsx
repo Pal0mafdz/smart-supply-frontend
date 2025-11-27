@@ -26,7 +26,8 @@ import {
   Store,
   Package,
   ChevronDown,
-  FileText
+  FileText,
+  CreditCard
 } from "lucide-react"
 
 
@@ -281,6 +282,23 @@ const SideNav = () => {
                           </Link>
                         </SidebarMenuButton>
                       </SidebarMenuSubItem>
+
+                      <SidebarMenuSubItem>
+                        <SidebarMenuButton
+                          asChild
+                          className={`hover:!bg-stone-800/50 hover:!text-stone-100 rounded-lg transition-all duration-200 ${
+                            location.pathname === "/payments" ? "bg-gradient-to-r from-stone-700 to-stone-800 text-stone-100 shadow-md" : ""
+                          }`}
+                        >
+                          <Link to="/payments" className="flex items-center space-x-3">
+                            <CreditCard className="h-4 w-4" />
+                            <span>Pagos</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuSubItem>
+
+
+
                     </SidebarMenuSub>
                   </CollapsibleContent>
                 </SidebarMenuItem>

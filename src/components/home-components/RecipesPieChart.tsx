@@ -4,7 +4,7 @@
 // import type { TopRecipe } from "@/api/MySalesApi"
 
 import type { TopRecipe } from "@/api/MySalesApi"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "../ui/chart"
 import { Pie, PieChart, Cell } from "recharts"
 

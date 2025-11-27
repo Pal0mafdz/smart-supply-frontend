@@ -85,7 +85,7 @@ const RecipeForm = ({ onSave, isLoading, recipeData }: Props) => {
    
   });
 
-  const { control, watch, reset } = form;
+  const { control, watch} = form;
   const { products: inventoryProducts } = useGetProducts();
 
   const [calculatedCosts, setCalculatedCosts] = useState<number[]>([]);

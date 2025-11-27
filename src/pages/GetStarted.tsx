@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 const GetStarted = () => {
 
-  const {loginWithRedirect, isAuthenticated} = useAuth0();
+  const {loginWithRedirect} = useAuth0();
   
   return (
     

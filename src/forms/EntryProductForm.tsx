@@ -95,7 +95,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
     const {deleteCategoryProd } = useDeleteCategoryProd();
     const [searchValue, setSearchValue] = useState("");
     const { suppliers, isLoading: isLoadingSuppliers } = useGetSuppliers();
-    const [supplierSearchValue, setSupplierSearchValue] = useState("");
+    // const [supplierSearchValue, setSupplierSearchValue] = useState("");
 
     const handleAddCategory = async () =>{
         if(!newCategory.trim()) return;

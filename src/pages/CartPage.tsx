@@ -8,7 +8,7 @@ import Spinner from "@/components/Spinner";
 import type { Recipe } from "@/types";
 import CartLayout from "@/components/CartLayout";
 import { useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import AlertNotFound from "@/components/cart-components/AlertNotFound";
 
 const CartPage = () => {

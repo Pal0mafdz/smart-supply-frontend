@@ -28,7 +28,7 @@ interface PaymentTableProps<TData, TValue> {
   data: TData[]
 }
 
-export function DataTable<TData, TValue>({
+export function PaymentTable<TData, TValue>({
   columns,
   data,
 }: PaymentTableProps<TData, TValue>) {

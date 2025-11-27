@@ -1,3 +1,6 @@
+import { useGetPayments } from "@/api/MySalesApi";
+import Spinner from "@/components/Spinner";
+import { PaymentTable } from "@/components/tables/PaymentsTable";
 import type { Payment } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 
@@ -34,8 +37,16 @@ const columns: ColumnDef<Payment>[] = [
 ]
 
 const PaymentsPage = () => {
+  const {payments, isLoading} = useGetPayments();
+    if(isLoading) return <Spinner/>
+  
   return (
-    <div>PaymentsPage</div>
+    <div className="w-full p-7 space-y-6">
+
+    
+
+    <PaymentTable columns={columns} data={payments??[]}/>
+    </div>
   )
 }
 

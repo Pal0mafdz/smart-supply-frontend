@@ -23,6 +23,7 @@ import SalesPage from "./pages/SalesPage";
 import CashSessionPage from "./pages/CashSessionPage";
 import ShrinkagePage from "./pages/ShrinkagePage";
 import LowStockSupplierAI from "./components/LowStockSupplierAI";
+import PaymentsPage from "./pages/PaymentsPage";
 
 
 
@@ -71,6 +72,10 @@ const AppRoutes = () => {
 
         <Route element={<RoleProtectedRoute allowedRoles={["admin", "almacenista", "contador"]}/>}>
           <Route path="/sales" element={<Layout><SalesPage/></Layout>}/>
+        </Route> 
+
+        <Route element={<RoleProtectedRoute allowedRoles={["admin", "almacenista", "contador"]}/>}>
+          <Route path="/payments" element={<Layout><PaymentsPage/></Layout>}/>
         </Route> 
 
         <Route element={<RoleProtectedRoute allowedRoles={["admin", "almacenista", "contador"]}/>}>
