@@ -2,7 +2,7 @@ import type { Dish } from "@/types";
 import { Button } from "../ui/button";
 import { Trash } from "lucide-react";
 
-import { useRemoveDish, useUpdateDish } from "@/api/MyOrderApi";
+import { useRemoveDish} from "@/api/MyOrderApi";
 
 
 type Props = {
