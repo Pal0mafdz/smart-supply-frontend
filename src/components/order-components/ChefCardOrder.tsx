@@ -1,71 +1,3 @@
-// import type { Order } from "@/types";
-// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
-// import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-// import { ScrollArea } from "../ui/scroll-area";
-// import { useUpdateDishStatus } from "@/api/MyOrderApi";
-
-// type Props = {
-//     order: Order;
-// }
-
-// const ChefCardOrder = ({order}: Props) => {
-//     const { updateDishStatus, isLoading } = useUpdateDishStatus();
-
-//     const handleStatusChange = (dishId: string, status: string) => {
-//         updateDishStatus({
-//           orderId: order._id!,
-//           dishId,
-//           status: status as "pendiente" | "en preparacion" | "listo para servir" | "entregado",
-//         });
-//       };
- 
-//   return (
-//     <Card>
-//       <CardHeader>
-//         <CardTitle>Orden #{order.number}</CardTitle>
-//       </CardHeader>
-//       <CardContent>
-//         <ScrollArea className="h-52">
-//           {order.dishes.map((dish, i) => (
-//             <div
-//               key={i}
-//               className={`flex justify-between items-center p-2 mb-2 rounded-md ${
-//                 dish.status === "listo para servir"
-//                   ? "bg-green-100"
-//                   : dish.status === "en preparacion"
-//                   ? "bg-yellow-100"
-//                   : "bg-gray-100"
-//               }`}
-//             >
-//               <p>{dish.recipe?.recipename}</p>
-//               <Select
-//                 onValueChange={(value) =>
-//                   handleStatusChange(dish._id!, value)
-//                 }
-//                 defaultValue={dish.status}
-//                 disabled={isLoading}
-//               >
-//                 <SelectTrigger className="w-[150px]">
-//                   <SelectValue placeholder="Estatus" />
-//                 </SelectTrigger>
-//                 <SelectContent>
-//                   <SelectItem value="pendiente">Pendiente</SelectItem>
-//                   <SelectItem value="en preparacion">En preparación</SelectItem>
-//                   <SelectItem value="listo para servir">
-//                     Listo para servir
-//                   </SelectItem>
-//                 </SelectContent>
-//               </Select>
-//             </div>
-//           ))}
-//         </ScrollArea>
-//       </CardContent>
-//     </Card>
-//   )
-// }
-
-// export default ChefCardOrder
-
 import type { Order } from "@/types";
 import {
   Select,
@@ -178,13 +110,13 @@ const ChefCardOrder = ({ order }: Props) => {
       defaultValue={dish.status}
       disabled={isLoading}
     >
-      <SelectTrigger className="w-[80px] h-8 text-xs">
+      <SelectTrigger className="w-[140px] h-8 text-xs">
         <SelectValue placeholder="Estatus" />
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="pendiente">Pendiente</SelectItem>
         <SelectItem value="en preparacion">En preparación</SelectItem>
-        <SelectItem value="listo para servir">Listo para servir</SelectItem>
+        <SelectItem value="listo para servir">Listo</SelectItem>
       </SelectContent>
     </Select>
   )}

@@ -268,7 +268,7 @@ const RecipeForm = ({ onSave, isLoading, recipeData }: Props) => {
               </TableCell>
 
               {/* Cantidad */}
-              <TableCell className="text-center">
+              {/* <TableCell className="text-center">
                 <Input
                   type="number"
                   className="w-full bg-white text-center"
@@ -282,7 +282,28 @@ const RecipeForm = ({ onSave, isLoading, recipeData }: Props) => {
                     field.onChange(newProducts);
                   }}
                 />
-              </TableCell>
+              </TableCell> */}
+
+<TableCell className="text-center">
+  <Input
+    type="number"
+   
+   
+    className="w-full bg-white text-center"
+    placeholder="Cantidad"
+    value={product.quantity ?? ""}
+    onChange={(e) => {
+      const newProducts = [...field.value];
+      const raw = e.target.value;
+
+      newProducts[index].quantity =
+        raw === "" ? 0: Number(raw);
+
+      field.onChange(newProducts);
+    }}
+  />
+</TableCell>
+
 
               {/* Costo */}
               <TableCell className="text-right text-sm text-gray-700">

@@ -9,10 +9,11 @@ import { useSidebar } from "./ui/sidebar"
 import { AvatarFallback } from "./ui/avatar"
 import { useGetCurrentUser } from "@/api/MyUserApi"
 
+
 const UsernameMenu = () => {
     const { logout } = useAuth0();
 
-    const { state } = useSidebar();
+    const { state, setOpen} = useSidebar();
     const collapsed = state === "collapsed";
 
     const {currentUser, isLoading} = useGetCurrentUser();
@@ -32,7 +33,11 @@ const UsernameMenu = () => {
    
 
   return (
-    <DropdownMenu>
+    <DropdownMenu onOpenChange={(open)=> {
+      if(open && state === "collapsed") {
+        setOpen
+      }
+    }}>
         <DropdownMenuTrigger asChild>
         <div
           className={`

@@ -136,12 +136,21 @@ export type RecipeProduct = {
     amount: number;
     reference: string;
     paidAt: Date;
-
-  //   method: { type: String, enum: ["tarjeta", "efectivo"], required: true },
-  // amount: { type: Number, required: true, min: 0 },
-  // reference: { type: String, default: "" },  
-  // paidAt: { type: Date, default: Date.now },
-  // cashier: {type: mongoose.Schema.ObjectId, ref: "User" },
-
-
+    cashier: User;
   }
+
+  export type CashSessionState = "abierta" | "cerrada";
+
+  export type CashSession = {
+    _id: string;
+    date: string;
+    openingAmount: number;
+    closingAmount?: number;
+    difference?: number;
+    note?: string;
+    openedAt: string;
+    closedAt?: string;
+    openedBy: string;
+    closedBy?: string;
+    status: CashSessionState;
+  };

@@ -1,29 +1,3 @@
-
-// import { Badge } from '../ui/badge'
-
-// type Props = {
-//     today: Date
-//   }
-
-
-// const Dashboardheader = ({today}: Props) => {
-//   return (
-//     <div className="flex items-center justify-between gap-2">
-//       <div>
-//         <h1 className="text-2xl font-bold tracking-tight">Tus Analiticas 📈</h1>
-//         <p className="text-muted-foreground text-sm">
-//           Resumen de ventas y desempeño del punto de venta.
-//         </p>
-//       </div>
-//       <Badge variant="outline" className="text-xs">
-//         Hoy · {today.toLocaleDateString("es-MX")}
-//       </Badge>
-//     </div>
-//   )
-// }
-
-// export default Dashboardheader
-
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -54,7 +28,7 @@ const DashboardHeader = ({ today, selectedDate, onDateChange }: Props) => {
         </p>
       </div>
 
-      {/* Badge + Selector de fecha */}
+
       <div className="flex items-center gap-3">
         {/* Badge dinámico (hoy o fecha distinta) */}
         <Badge variant="secondary" className="text-sm">
@@ -63,7 +37,7 @@ const DashboardHeader = ({ today, selectedDate, onDateChange }: Props) => {
             : "Fecha seleccionada"}
         </Badge>
 
-        {/* Date Picker con Popover */}
+  
         <Popover>
           <PopoverTrigger asChild>
             <Button

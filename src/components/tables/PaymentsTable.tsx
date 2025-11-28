@@ -93,7 +93,7 @@ export function PaymentTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No hay Ventas.
+                No hay Pagos.
               </TableCell>
             </TableRow>
           )}

@@ -1,66 +1,3 @@
-// import { Button } from "@/components/ui/button";
-// import { useUpdateDishStatus } from "@/api/MyOrderApi";
-
-// type Props = {
-//   order: any; 
-// };
-
-// const WaiterCardOrder = ({ order }: Props) => {
-//   const { updateDishStatus, isLoading } = useUpdateDishStatus();
-
-//   const handleDelivered = async (dishId: string) => {
-//     await updateDishStatus({
-//       orderId: order._id,
-//       dishId,
-//       status: "entregado",
-//     });
-//   };
-
-//   return (
-//     <div className="border rounded-xl p-4 bg-white shadow-sm">
-//       <div className="font-semibold mb-2">Orden #{order.number}</div>
-//       <div className="font-semibold mb-2">Mesero a cargo {order.user}</div>
-
-//       <div className="space-y-2">
-//         {order.dishes.map((dish: any) => (
-//           <div
-//             key={dish._id}
-//             className="flex items-center justify-between text-sm"
-//           >
-//             <div>
-//               <div className="font-medium">
-//                 {dish.recipe?.recipename ?? "Platillo"}
-//               </div>
-//               <div className="text-xs text-gray-500">
-//                 {dish.quantity}x · {dish.status}
-//               </div>
-//             </div>
-
-//             {dish.status === "listo para servir" && (
-//               <Button
-//                 size="sm"
-//                 className="bg-emerald-600 hover:bg-emerald-700 text-white"
-//                 disabled={isLoading}
-//                 onClick={() => handleDelivered(dish._id)}
-//               >
-//                 Entregar
-//               </Button>
-//             )}
-
-//             {dish.status === "entregado" && (
-//               <span className="text-xs text-emerald-600 font-semibold">
-//                 Entregado
-//               </span>
-//             )}
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default WaiterCardOrder;
-
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useUpdateDishStatus } from "@/api/MyOrderApi";
@@ -125,9 +62,9 @@ const WaiterCardOrder = ({ order }: Props) => {
                 {dish.recipe?.recipename ?? "Platillo"}
               </span>
 
-              <span className="text-xs text-stone-500">
+              {/* <span className="text-xs text-stone-500">
                 {dish.quantity}x · {dish.status}
-              </span>
+              </span> */}
             </div>
 
             {/* Botón o etiqueta */}

@@ -168,8 +168,8 @@ const PaymentDialog = ({
             </div>
           </div>
   
-          <div className="mt-6">
-            <div className="text-xs font-semibold text-stone-500 mb-1">
+          <div className="mt-6 mb-3">
+            <div className="text-xs font-semibold text-stone-500 mb-1 ">
               Referencia (opcional)
             </div>
             <Input

@@ -20,6 +20,11 @@ const columns: ColumnDef<Payment>[] = [
     header: "Referencia",
 
   },
+  {
+  
+    header: "Cajero",
+    accessorFn: (row) => row.cashier?.name ?? "—",
+  },
  
   
     {
