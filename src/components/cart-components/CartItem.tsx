@@ -1,6 +1,6 @@
 import type { Dish } from "@/types";
 import { Button } from "../ui/button";
-import { Minus, Plus, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 
 import { useRemoveDish, useUpdateDish } from "@/api/MyOrderApi";
 
@@ -14,7 +14,7 @@ type Props = {
 }
 
 const CartItem = ({dish, orderId}: Props) => {
-  const {updateDish} = useUpdateDish()
+  // const {updateDish} = useUpdateDish()
   const {removeDish} = useRemoveDish(orderId);
   const dishId = dish._id!;
   const isSent = dish.sent === true;

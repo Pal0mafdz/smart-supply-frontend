@@ -1,12 +1,11 @@
 import React from "react"
 import {
-  useGetSales,
-  useGetSalesByRecipeAndPeriod,
+  useGetSales
 } from "@/api/MySalesApi"
 
 import DashboardKpis from "@/components/home-components/DashboardKpis"
 import Dashboardheader from "@/components/home-components/Dashboardheader"
-import SalesByRecipeTable from "@/components/home-components/SalesByRecipeTable"
+
 import SalesChart from "@/components/home-components/SalesChart"
 import TopRecipesChart from "@/components/home-components/TopRecipesChart"
 import RecipesPieChart from "@/components/home-components/RecipesPieChart"
