@@ -26,11 +26,11 @@ type Props = {
 const config = {
   totalRevenue: {
     label: "Ingresos",
-    color: "var(--chart-1)",
+    color: "var(--chart-2)",
   },
   totalSales: {
     label: "Órdenes",
-    color: "var(--chart-2)",
+    color: "var(--chart-6)",
   },
 } satisfies ChartConfig
 
@@ -42,7 +42,7 @@ const formatLabel = (value: string) => `Hora ${value}`
 
 const SalesChart = ({ isLoading, data }: Props) => {
   return (
-    <Card className="lg:col-span-2 h-[600px] shadow-none">
+    <Card className="lg:col-span-2 h-[620px] shadow-none">
       <CardHeader>
         <div>
           <CardTitle>Ventas de hoy</CardTitle>
@@ -56,7 +56,7 @@ const SalesChart = ({ isLoading, data }: Props) => {
         ) : (
           <ChartContainer
             config={config}
-            className="aspect-auto h-full w-full lg:h-[240px]"
+            className="w-full h-[400px] flex items-center justify-center"
           >
             <AreaChart
               accessibilityLayer

@@ -74,9 +74,8 @@ export const useCloseCashSession = () => {
 
     if (!res.ok) throw new Error("Error cerrando caja");
 
-    // Responde un Excel (arrayBuffer)
-    const blob = await res.blob();
-    return blob;
+    const data = await res.json()
+    return data;
   };
 
   const { mutateAsync: closeCash, isPending: isLoading } = useMutation({

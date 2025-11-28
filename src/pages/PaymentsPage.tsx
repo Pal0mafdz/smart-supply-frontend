@@ -8,7 +8,10 @@ const columns: ColumnDef<Payment>[] = [
   {
     accessorKey: "amount",
     header: "Monto",
-
+    cell: ({ row }) => {
+      const value = row.getValue("amount") as number;
+      return `$${value.toFixed(2)}`;
+    },
   },
   {
     accessorKey: "method",
@@ -47,6 +50,9 @@ const PaymentsPage = () => {
   
   return (
     <div className="w-full p-7 space-y-6">
+      <h1 className="text-2xl font-semibold text-stone-800">
+            Pagos
+          </h1>
 
     
 

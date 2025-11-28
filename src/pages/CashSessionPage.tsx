@@ -586,33 +586,53 @@ const CashSessionPage = () => {
     }
   };
 
+  // const handleClose = async () => {
+  //   if (realClosingAmount === "") {
+  //     toast.error("Ingresa el efectivo real al cierre");
+  //     return;
+  //   }
+
+  //   try {
+  //     const blob = await closeCash({
+  //       realClosingAmount: Number(realClosingAmount),
+  //       note,
+  //       date: dateISO,
+  //     });
+
+  //     const url = window.URL.createObjectURL(blob);
+  //     const link = document.createElement("a");
+  //     link.href = url;
+  //     link.download = `cierre-caja-${dateISO}.xlsx`;
+  //     document.body.appendChild(link);
+  //     link.click();
+  //     link.remove();
+  //     window.URL.revokeObjectURL(url);
+
+  //     toast.success("Caja cerrada con exito");
+  //   } catch (e: any) {
+  //     toast.error(e?.message || "Error al cerrar la caja");
+  //   }
+  // };
+
   const handleClose = async () => {
     if (realClosingAmount === "") {
       toast.error("Ingresa el efectivo real al cierre");
       return;
     }
-
+  
     try {
-      const blob = await closeCash({
+      await closeCash({
         realClosingAmount: Number(realClosingAmount),
         note,
         date: dateISO,
       });
-
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `cierre-caja-${dateISO}.xlsx`;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      window.URL.revokeObjectURL(url);
-
-      toast.success("Caja cerrada y reporte descargado");
+  
+      toast.success("Caja cerrada con éxito");
     } catch (e: any) {
       toast.error(e?.message || "Error al cerrar la caja");
     }
   };
+  
 
   const resetSession = () => {
     if (!cashSession) {
@@ -634,17 +654,14 @@ const CashSessionPage = () => {
         </h1>
         <p className="text-sm text-muted-foreground">
           Registra las ventas del día y calcula el cierre de caja con sobrante
-          o faltante. Al cerrar la caja se genera un reporte descargable.
+          o faltante. 
         </p>
       </header>
 
       {/* Selector de fecha igual a DashboardHeader */}
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div className="space-y-2">
-          <label className="text-sm font-medium text-muted-foreground">
-            Día de la jornada
-          </label>
-
+         
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -738,9 +755,9 @@ const CashSessionPage = () => {
         </div>
       </section>
 
-      {/* Formulario apertura / cierre */}
+   
       <section className="grid gap-6 md:grid-cols-2">
-        {/* Apertura */}
+ 
         <div className="space-y-4 rounded-xl border bg-card p-5">
           <h2 className="text-base font-semibold">Apertura de caja</h2>
           <div className="space-y-2">
@@ -835,7 +852,7 @@ const CashSessionPage = () => {
               onClick={handleClose}
               disabled={state !== "abierta" || closeLoading}
             >
-              {closeLoading ? "Cerrando..." : "Cerrar caja y descargar reporte"}
+              {closeLoading ? "Cerrando..." : "Cerrar caja"}
             </Button>
             <Button
               className="flex-1"

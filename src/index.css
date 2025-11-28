@@ -56,9 +56,12 @@
 }
 
 :root {
-    --pale-pink: oklch(0.95 0.02 330);
+    --pale-pink: oklch(0.88 0.05 330);
+--pale-green: oklch(0.88 0.06 110);
+--peach:      oklch(0.86 0.10 75);
+    /* --pale-pink: oklch(0.95 0.02 330);
     --pale-green: oklch(0.96 0.03 110);
-    --peach: oklch(0.93 0.07 75);
+    --peach: oklch(0.93 0.07 75); */
     --green: oklch(0.759 0.109 113.3);
     --orange: oklch(0.7 0.09 31);
     --dark-orange: oklch(0.45 0.12 27);

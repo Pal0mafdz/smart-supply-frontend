@@ -41,8 +41,8 @@ const AdminHomePage = () => {
   // === Datos del día (tabla y KPIs) ===
   const { sales, isLoading: isLoadingSales } = useGetSales(startDate, endDate)
 
-  const { salesByRecipeAndPeriod, isLoading: isLoadingByRecipePeriod } =
-    useGetSalesByRecipeAndPeriod("day", startDate, endDate)
+  // const { salesByRecipeAndPeriod, isLoading: isLoadingByRecipePeriod } =
+  //   useGetSalesByRecipeAndPeriod("day", startDate, endDate)
 
   // === KPIs del día ===
   const kpis = React.useMemo(() => {
@@ -156,12 +156,12 @@ const AdminHomePage = () => {
         </div>
       </div>
 
-      <div className="space-y-6">
+      {/* <div className="space-y-6">
         <SalesByRecipeTable
           isLoading={isLoadingByRecipePeriod}
           data={salesByRecipeAndPeriod}
         />
-      </div>
+      </div> */}
     </div>
   )
 }
